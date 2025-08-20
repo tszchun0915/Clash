@@ -1,58 +1,59 @@
-DOMAIN,emby.enjoyit.eu.org,📺 EMBY
-DOMAIN,emby.lcloud.wiki,📺 EMBY
-DOMAIN,notnetflix.cos.cat,📺 EMBY
-DOMAIN-SUFFIX,123456.al,📺 EMBY
-DOMAIN-SUFFIX,285286.xyz,📺 EMBY
-DOMAIN-SUFFIX,agahk1.jmsooo.com,📺 EMBY
-DOMAIN-SUFFIX,agajp1.jmsooo.com,📺 EMBY
-DOMAIN-SUFFIX,agasg1.jmsooo.com,📺 EMBY
-DOMAIN-SUFFIX,aws.jmsooo.com,📺 EMBY
-DOMAIN-SUFFIX,cf1.jmsooo.com,📺 EMBY
-DOMAIN-SUFFIX,cristiamo.xyz,📺 EMBY
-DOMAIN-SUFFIX,emby.cjpc.cc,📺 EMBY
-DOMAIN-SUFFIX,emby.cjpc.tv,📺 EMBY
-DOMAIN-SUFFIX,emby.cjpc.xyz,📺 EMBY
-DOMAIN-SUFFIX,emby.cristiamo.top,📺 EMBY
-DOMAIN-SUFFIX,emby.flowercloud.yt,📺 EMBY
-DOMAIN-SUFFIX,emby.immtel.com,📺 EMBY
-DOMAIN-SUFFIX,emby.maying.club,📺 EMBY
-DOMAIN-SUFFIX,emby.mcwy.me,📺 EMBY
-DOMAIN-SUFFIX,emby.mdss.cloud,📺 EMBY
-DOMAIN-SUFFIX,emby.neko.edu.rs,📺 EMBY
-DOMAIN-SUFFIX,emby.nexitally.com,📺 EMBY
-DOMAIN-SUFFIX,emby.nyancat.net,📺 EMBY
-DOMAIN-SUFFIX,emby.ok.edu.hk,📺 EMBY
-DOMAIN-SUFFIX,emby.paoche.ooo,📺 EMBY
-DOMAIN-SUFFIX,emby.prprcloud.com,📺 EMBY
-DOMAIN-SUFFIX,emby.wtf,📺 EMBY
-DOMAIN-SUFFIX,emby.xeton.dev,📺 EMBY
-DOMAIN-SUFFIX,emby.ytoo.li,📺 EMBY
-DOMAIN-SUFFIX,embymv.tk,📺 EMBY
-DOMAIN-SUFFIX,embyplus.org,📺 EMBY
-DOMAIN-SUFFIX,embyserver.ga,📺 EMBY,📺 EMBY
-DOMAIN-SUFFIX,hinet.jmsooo.com,📺 EMBY
-DOMAIN-SUFFIX,imetyou.top,📺 EMBY
-DOMAIN-SUFFIX,jellyfin.asia,📺 EMBY
-DOMAIN-SUFFIX,jellyfin.xeton.dev,📺 EMBY
-DOMAIN-SUFFIX,line.emby.men,📺 EMBY
-DOMAIN-SUFFIX,mickeycloud.com,📺 EMBY
-DOMAIN-SUFFIX,movie.xeton.dev,📺 EMBY
-DOMAIN-SUFFIX,ntt1.jmsooo.com,📺 EMBY
-DOMAIN-SUFFIX,ohhhh.org,📺 EMBY
-DOMAIN-SUFFIX,peachmv.me,📺 EMBY
-DOMAIN-SUFFIX,pilipiliultra.com,📺 EMBY
-DOMAIN-SUFFIX,plusmedia.site,📺 EMBY
-DOMAIN-SUFFIX,poloemby.xyz,📺 EMBY
-DOMAIN-SUFFIX,pornemby.club,📺 EMBY
-DOMAIN-SUFFIX,servers.xeton.dev,📺 EMBY
-DOMAIN-SUFFIX,xmsl.org,📺 EMBY
-DOMAIN-KEYWORD,emby.wtf,📺 EMBY
-DOMAIN-KEYWORD,jmsooo,📺 EMBY
-DOMAIN-KEYWORD,odysseyplus,📺 EMBY
-DOMAIN-KEYWORD,emby,📺 EMBY
-DOMAIN-SUFFIX,pemby.ednovas.org,📺 EMBY
-DOMAIN-SUFFIX,pornemby.club,📺 EMBY
-DOMAIN-SUFFIX,8.8.8.8:48475,📺 EMBY
-DOMAIN-SUFFIX,8.8.8.8:8920,📺 EMBY
-DOMAIN-SUFFIX,127.0.0.1:8096,📺 EMBY
-DOMAIN-SUFFIX,pemby.ednovas.org:8096,📺 EMBY
+payload:
+  - DOMAIN,emby.enjoyit.eu.org,📺 EMBY
+  - DOMAIN,emby.lcloud.wiki,📺 EMBY
+  - DOMAIN,notnetflix.cos.cat,📺 EMBY
+  - DOMAIN-SUFFIX,123456.al,📺 EMBY
+  - DOMAIN-SUFFIX,285286.xyz,📺 EMBY
+  - DOMAIN-SUFFIX,agahk1.jmsooo.com,📺 EMBY
+  - DOMAIN-SUFFIX,agajp1.jmsooo.com,📺 EMBY
+  - DOMAIN-SUFFIX,agasg1.jmsooo.com,📺 EMBY
+  - DOMAIN-SUFFIX,aws.jmsooo.com,📺 EMBY
+  - DOMAIN-SUFFIX,cf1.jmsooo.com,📺 EMBY
+  - DOMAIN-SUFFIX,cristiamo.xyz,📺 EMBY
+  - DOMAIN-SUFFIX,emby.cjpc.cc,📺 EMBY
+  - DOMAIN-SUFFIX,emby.cjpc.tv,📺 EMBY
+  - DOMAIN-SUFFIX,emby.cjpc.xyz,📺 EMBY
+  - DOMAIN-SUFFIX,emby.cristiamo.top,📺 EMBY
+  - DOMAIN-SUFFIX,emby.flowercloud.yt,📺 EMBY
+  - DOMAIN-SUFFIX,emby.immtel.com,📺 EMBY
+  - DOMAIN-SUFFIX,emby.maying.club,📺 EMBY
+  - DOMAIN-SUFFIX,emby.mcwy.me,📺 EMBY
+  - DOMAIN-SUFFIX,emby.mdss.cloud,📺 EMBY
+  - DOMAIN-SUFFIX,emby.neko.edu.rs,📺 EMBY
+  - DOMAIN-SUFFIX,emby.nexitally.com,📺 EMBY
+  - DOMAIN-SUFFIX,emby.nyancat.net,📺 EMBY
+  - DOMAIN-SUFFIX,emby.ok.edu.hk,📺 EMBY
+  - DOMAIN-SUFFIX,emby.paoche.ooo,📺 EMBY
+  - DOMAIN-SUFFIX,emby.prprcloud.com,📺 EMBY
+  - DOMAIN-SUFFIX,emby.wtf,📺 EMBY
+  - DOMAIN-SUFFIX,emby.xeton.dev,📺 EMBY
+  - DOMAIN-SUFFIX,emby.ytoo.li,📺 EMBY
+  - DOMAIN-SUFFIX,embymv.tk,📺 EMBY
+  - DOMAIN-SUFFIX,embyplus.org,📺 EMBY
+  - DOMAIN-SUFFIX,embyserver.ga,📺 EMBY,📺 EMBY
+  - DOMAIN-SUFFIX,hinet.jmsooo.com,📺 EMBY
+  - DOMAIN-SUFFIX,imetyou.top,📺 EMBY
+  - DOMAIN-SUFFIX,jellyfin.asia,📺 EMBY
+  - DOMAIN-SUFFIX,jellyfin.xeton.dev,📺 EMBY
+  - DOMAIN-SUFFIX,line.emby.men,📺 EMBY
+  - DOMAIN-SUFFIX,mickeycloud.com,📺 EMBY
+  - DOMAIN-SUFFIX,movie.xeton.dev,📺 EMBY
+  - DOMAIN-SUFFIX,ntt1.jmsooo.com,📺 EMBY
+  - DOMAIN-SUFFIX,ohhhh.org,📺 EMBY
+  - DOMAIN-SUFFIX,peachmv.me,📺 EMBY
+  - DOMAIN-SUFFIX,pilipiliultra.com,📺 EMBY
+  - DOMAIN-SUFFIX,plusmedia.site,📺 EMBY
+  - DOMAIN-SUFFIX,poloemby.xyz,📺 EMBY
+  - DOMAIN-SUFFIX,pornemby.club,📺 EMBY
+  - DOMAIN-SUFFIX,servers.xeton.dev,📺 EMBY
+  - DOMAIN-SUFFIX,xmsl.org,📺 EMBY
+  - DOMAIN-KEYWORD,emby.wtf,📺 EMBY
+  - DOMAIN-KEYWORD,jmsooo,📺 EMBY
+  - DOMAIN-KEYWORD,odysseyplus,📺 EMBY
+  - DOMAIN-KEYWORD,emby,📺 EMBY
+  - DOMAIN-SUFFIX,pemby.ednovas.org,📺 EMBY
+  - DOMAIN-SUFFIX,pornemby.club,📺 EMBY
+  - DOMAIN-SUFFIX,8.8.8.8:48475,📺 EMBY
+  - DOMAIN-SUFFIX,8.8.8.8:8920,📺 EMBY
+  - DOMAIN-SUFFIX,127.0.0.1:8096,📺 EMBY
+  - DOMAIN-SUFFIX,pemby.ednovas.org:8096,📺 EMBY

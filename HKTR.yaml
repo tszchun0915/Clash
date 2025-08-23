@@ -1,7 +1,9 @@
 payload:
-  - IP-CIDR,210.242.202.0/24,DIRECT
-  - DOMAIN-SUFFIX,talesrunner.com.hk,DIRECT
-  - DOMAIN-SUFFIX,eauth.funtown.com.hk,DIRECT
-  - DOMAIN-SUFFIX,datarouter.ol.epicgames.com,DIRECT
-  - DOMAIN-SUFFIX,modules-cdn.eac-prod.on.epicgames.com,DIRECT
-  - DOMAIN-SUFFIX,api.epicgames.dev,DIRECT
+  # 港跑 (全部都屬於台灣[新台北]IP)
+  - IP-CIDR,210.242.202.0/24
+  - DOMAIN-SUFFIX,talesrunner.com.hk
+  - DOMAIN-SUFFIX,eauth.funtown.com.hk
+  # 港跑的藍熊 (好像需要與港跑同一個IP)
+  - DOMAIN-SUFFIX,datarouter.ol.epicgames.com
+  - DOMAIN-SUFFIX,modules-cdn.eac-prod.on.epicgames.com
+  - DOMAIN-SUFFIX,api.epicgames.dev

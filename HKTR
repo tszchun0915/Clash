@@ -1,0 +1,7 @@
+payload:
+  - IP-CIDR,210.242.202.0/24,DIRECT
+  - DOMAIN-SUFFIX,talesrunner.com.hk,DIRECT
+  - DOMAIN-SUFFIX,eauth.funtown.com.hk,DIRECT
+  - DOMAIN-SUFFIX,datarouter.ol.epicgames.com,DIRECT
+  - DOMAIN-SUFFIX,modules-cdn.eac-prod.on.epicgames.com,DIRECT
+  - DOMAIN-SUFFIX,api.epicgames.dev,DIRECT

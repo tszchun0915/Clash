@@ -572,22 +572,6 @@ payload:
   - DOMAIN-SUFFIX,aastock.com         # 阿斯達克財經
   - DOMAIN-SUFFIX,aastock.com.hk
   
-  # === 銀行相關關鍵字 ===
-  - DOMAIN-KEYWORD,banking
-  - DOMAIN-KEYWORD,ebanking
-  - DOMAIN-KEYWORD,internetbanking
-  - DOMAIN-KEYWORD,mobilebanking
-  - DOMAIN-KEYWORD,payroll
-  - DOMAIN-KEYWORD,remittance
-  - DOMAIN-KEYWORD,mpf
-  - DOMAIN-KEYWORD,securities
-  - DOMAIN-KEYWORD,trading
-  - DOMAIN-KEYWORD,funds
-  - DOMAIN-KEYWORD,investment
-  - DOMAIN-KEYWORD,wealth
-  - DOMAIN-KEYWORD,forex
-  - DOMAIN-KEYWORD,finance
-  
   # === 其他重要金融服務 ===
   
   # 股票報價及財經資訊

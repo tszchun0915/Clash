@@ -1,5 +1,5 @@
 payload:
-  - DOMAIN,bahamut.akamaized.net,DIRECT
-  - DOMAIN-SUFFIX,bahamut.com.tw,DIRECT
-  - DOMAIN-SUFFIX,ani.gamer.com.tw,DIRECT
-  - DOMAIN-SUFFIX,api.gamer.com.tw,DIRECT
+  - DOMAIN,bahamut.akamaized.net
+  - DOMAIN-SUFFIX,bahamut.com.tw
+  - DOMAIN-SUFFIX,ani.gamer.com.tw
+  - DOMAIN-SUFFIX,api.gamer.com.tw

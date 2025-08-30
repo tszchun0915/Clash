@@ -1,0 +1,53 @@
+payload:
+  # BT 相關
+  - DOMAIN-KEYWORD,torrent
+  - DOMAIN-KEYWORD,tracker
+  - DOMAIN-KEYWORD,announce
+  - PROCESS-NAME,qbittorrent
+  - PROCESS-NAME,transmission
+  
+  # 法輪功相關網站
+  - DOMAIN-SUFFIX,dafahao.com
+  - DOMAIN-SUFFIX,mingjinglive.com
+  - DOMAIN-SUFFIX,botanwang.com
+  - DOMAIN-SUFFIX,minghui.org
+  - DOMAIN-SUFFIX,dongtaiwang.com
+  - DOMAIN-SUFFIX,epochtimes.com
+  - DOMAIN-SUFFIX,ntdtv.com
+  - DOMAIN-SUFFIX,falundafa.org
+  - DOMAIN-SUFFIX,rfa.org
+  - DOMAIN-SUFFIX,voachinese.com
+  - DOMAIN-SUFFIX,soundofhope.org
+  
+  # 政府網站
+  - DOMAIN-SUFFIX,gov.cn
+  - DOMAIN-SUFFIX,12377.cn
+  - DOMAIN-SUFFIX,12315.com
+  - DOMAIN-SUFFIX,cyberpolice.cn
+  
+  # 百度定位
+  - DOMAIN-KEYWORD,api.map.baidu
+  - DOMAIN-KEYWORD,ps.map.baidu
+  - DOMAIN-KEYWORD,sv.map.baidu
+  
+  # 360 相關
+  - DOMAIN-SUFFIX,360.cn
+  - DOMAIN-SUFFIX,360.com
+  - DOMAIN-SUFFIX,so.com
+  
+  # 迅雷相關
+  - DOMAIN-KEYWORD,xunlei
+  - DOMAIN-KEYWORD,sandai
+  - DOMAIN-KEYWORD,thunder
+
+  # 強制特定端口走代理
+  - DST-PORT,22,PROXY      # SSH
+  - DST-PORT,23,PROXY      # Telnet  
+  - DST-PORT,25,PROXY      # SMTP
+  - DST-PORT,445,PROXY     # SMB
+  - DST-PORT,465,PROXY     # SMTPS
+  - DST-PORT,587,PROXY     # SMTP
+  - DST-PORT,992,PROXY     # Telnet over SSL
+  - DST-PORT,3389,PROXY    # RDP
+  - DST-PORT,6881-6999,PROXY  # BT 端口範圍
+  - DST-PORT,10000-65535,PROXY # 高端口範圍

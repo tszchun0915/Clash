@@ -13,6 +13,13 @@ payload:
   - IP-CIDR,104.16.181.30/32,no-resolve # AniGamer 具體IP
   - IP-CIDR,104.16.182.30/32,no-resolve # AniGamer 具體IP
 
+  # 圖片和檔案服務
+  - DOMAIN-SUFFIX,p1.bahamut.com.tw
+  - DOMAIN-SUFFIX,p2.bahamut.com.tw
+  - DOMAIN-SUFFIX,img.gamer.com.tw
+  - DOMAIN-SUFFIX,image.gamer.com.tw
+  - DOMAIN-SUFFIX,attachment.gamer.com.tw
+
   # 廣告和統計服務
   - DOMAIN-SUFFIX,ads.gamer.com.tw
   - DOMAIN-SUFFIX,stat.gamer.com.tw

@@ -40,10 +40,8 @@ payload:
   - DOMAIN-SUFFIX,anthropic.com
   - DOMAIN-SUFFIX,claude.ai
   - IP-CIDR,160.79.104.0/21
-  - DOMAIN-SUFFIX,googletagmanager.com
   - DOMAIN-SUFFIX,hubspotonwebflow.com
   - DOMAIN,d3e54v103j8qbb.cloudfront.net
-  - DOMAIN-SUFFIX,google-analytics.com
   - DOMAIN-SUFFIX,edge.microsoft.com
   - IP-CIDR,150.171.27.11/24,no-resolve
   

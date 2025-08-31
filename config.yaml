@@ -1,12 +1,11 @@
 # ==============================
 #  快捷指令
 # ==============================
-default: &default {type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳]}
-load-balance: &load-balance {type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180}}
 rule-set: &rule-set {type: http, behavior: classical, interval: 3600}
 NodeParam: &NodeParam {type: http, interval: 21600, health-check: {enable: true, interval: 300, timeout: 500, url: 'http://captive.apple.com/generate_204', expected-status: 204, lazy: true, proxy: DIRECT}} # 節點參數（保留原配置，優化：health-check URL 適合國內國際檢測 Apple 門戶）
-Tester: &Tester {type: select, url: 'http://測試url網址', expected-status: 200, include-all: true, filter: "(?i:).*" , proxies: [DIRECT], hidden : false}
-# http://files.catbox.moe
+# load-balance: &load-balance {type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180}}
+# default: &default {type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳]}
+# Tester: &Tester {type: select, url: 'http://測試url網址', expected-status: 200, include-all: true, filter: "(?i:).*" , proxies: [DIRECT], hidden : false}}
 
 # ==============================
 #  主要端口設定（系統連接端口和安全認證）
@@ -46,22 +45,22 @@ dns:
   use-hosts: true # 使用 hosts 文件
   use-system-hosts: true # 使用系統 hosts
   respect-rules: true # 尊重規則中的 DNS 設置
-  listen: 0.0.0.0:1054 # 監聽地址（改為 1054 避免可能的端口衝突）
+  listen: '0.0.0.0:1054' # 監聽地址（改為 1054 避免可能的端口衝突）
   ipv6: false # 啟用 IPv6（國際網絡常用，國內可選）
   enhanced-mode: fake-ip # 增強模式使用 fake-ip（防 DNS 污染，適合國內國際兼備）
-  fake-ip-range: 198.18.0.1/16 # fake-ip 範圍（標準範圍，無需變更）
+  fake-ip-range: '198.18.0.1/16' # fake-ip 範圍（標準範圍，無需變更）
   fake-ip-filter-mode: blacklist # 過濾模式為黑名單
   fake-ip-filter: ["*.機場官網1", "*.機場官網2", "*.機場官網3", "localhost.ptlogin2.qq.com", "geosite:cn", "daemon.warn", "stun.*.*.*", "stun.*.*", "time.windows.com", "*.ntp.org.cn", "pool.ntp.org", "*.baidu.com", "*.sogou.com", "*.msftcsi.com", "www.msftconnecttest.com","*.qq.com","*.weibo.com"] # 偽 IP 過濾列表 「危險域名」標記為「唔信賴」或「污染高風險」 優先用假 IP 或跳過呢啲域名嘅正常 DNS 解析
-  default-nameserver: [223.5.5.5,223.6.6.6,119.29.29.29,180.184.1.1] # 默認 DNS 伺服器
-  nameserver: [https://doh.pub/dns-query,https://dns.alidns.com/dns-query,180.184.1.1] # 主 nameserver（添加備用）
+  default-nameserver: ['223.5.5.5','223.6.6.6','119.29.29.29','180.184.1.1'] # 默認 DNS 伺服器
+  nameserver: ['https://doh.pub/dns-query','https://dns.alidns.com/dns-query','180.184.1.1'] # 主 nameserver（添加備用）
   nameserver-policy: # 域名解析策略
-    "GEOIP:CN": [https://dns.alidns.com/dns-query,https://doh.pub/dns-query] # 國內IP用國內 DoH
-    "geosite:cn": [https://dns.alidns.com/dns-query,https://doh.pub/dns-query] # 國內域名用國內 DoH
-    "geosite:private,geolocation-!cn": [https://dns.cloudflare.com/dns-query,https://dns.google/dns-query] # 國際域名用國際 DoH
-    "GEOIP:private,geolocation-!cn": [https://dns.cloudflare.com/dns-query,https://dns.google/dns-query] # 國際IP用國際 DoH
-  fallback: [tls://1.1.1.1/853,tls://8.8.8.8:853]
-  proxy-server-nameserver: [https://dns.cloudflare.com/dns-query, https://dns.google/dns-query]  # proxy 偏國際，適合國外/非法
-  direct-nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]  # direct 偏國內，適合合法網站
+    "GEOIP:CN": ['https://dns.alidns.com/dns-query','https://doh.pub/dns-query'] # 國內IP用國內 DoH
+    "geosite:cn": ['https://dns.alidns.com/dns-query,https://doh.pub/dns-query'] # 國內域名用國內 DoH
+    "geosite:private,geolocation-!cn": ['https://dns.cloudflare.com/dns-query','https://dns.google/dns-query'] # 國際域名用國際 DoH
+    "GEOIP:private,geolocation-!cn": ['https://dns.cloudflare.com/dns-query','https://dns.google/dns-query'] # 國際IP用國際 DoH
+  fallback: ['tls://1.1.1.1/853,tls://8.8.8.8:853']
+  proxy-server-nameserver: ['https://dns.cloudflare.com/dns-query','https://dns.google/dns-query']  # proxy 偏國際，適合國外/非法
+  direct-nameserver: ['https://dns.alidns.com/dns-query','https://doh.pub/dns-query']  # direct 偏國內，適合合法網站
   direct-nameserver-follow-policy: true # 跟隨策略
 
 # 後備過濾器
@@ -70,8 +69,8 @@ fallback-filter:
   geoip: true # 啟用 geoip
   geoip-code: CN # 中國 geoip 代碼
   geosite: gfw # GFW 列表
-  ipcidr: [240.0.0.0/4] # IP CIDR 過濾
-  domain: [+.facebook.com,+.twitter.com,+.youtube.com,+.xn--ngstr-lra8j.com,+.googleapis.com,+.gvt1.com,'+.cn','baidu.com','-gfw'] # 域名過濾
+  ipcidr: ['240.0.0.0/4'] # IP CIDR 過濾
+  domain: ['+.facebook.com','+.twitter.com','+.youtube.com','+.xn--ngstr-lra8j.com','+.googleapis.com','+.gvt1.com','+.cn','baidu.com','-gfw'] # 域名過濾
   auto-redirect-input-mark: 8227 # 自動重定向輸入標記
   auto-redirect-output-mark: 8228 # 自動重定向輸出標記
   recvmsgx: true # 接收 msgx
@@ -84,10 +83,10 @@ geo-auto-update: true # 自動更新 GEO 數據
 geo-update-interval: 24 # 更新間隔（小時）
 geodata-loader: standard # GEO 數據載入器
 geox-url:
-  geoip: https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat # 輕量 GEOIP
-  geosite: https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat # GEOSITE
-  mmdb: https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb # 國家 MMDB
-  asn: https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb # ASN MMDB
+  geoip: 'https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat' # 輕量 GEOIP
+  geosite: 'https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat' # GEOSITE
+  mmdb: 'https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb' # 國家 MMDB
+  asn: 'https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb' # ASN MMDB
 
 # ==============================
 #  域名嗅探（流量嗅探和路由強制/跳過）
@@ -103,7 +102,7 @@ sniff:
   TLS: {ports: [443,8443]} # TLS 端口
   QUIC: {ports: [443,8443]} # QUIC 端口
   skip-domain: ["192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12", "localhost", "*.local", "*.lan", "*.home"] # 跳過域名（使用引號修正）
-  force-domain: [youtube.com, stackoverflow.com, ytimg.com, "+.apple.com", "10.0.0.0/8", "100.64.0.0/10", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", "192.0.0.0/24", "192.0.2.0/24", "192.88.99.0/24", "192.168.0.0/16", "198.51.100.0/24", "203.0.113.0/24", "224.0.0.0/4", "255.255.255.255/32", "239.255.255.250/32", "198.18.0.0/15"] # 強制域名（統一使用引號）
+  force-domain: ["youtube.com", "stackoverflow.com", "ytimg.com", "+.apple.com", "10.0.0.0/8", "100.64.0.0/10", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", "192.0.0.0/24", "192.0.2.0/24", "192.88.99.0/24", "192.168.0.0/16", "198.51.100.0/24", "203.0.113.0/24", "224.0.0.0/4", "255.255.255.255/32", "239.255.255.250/32", "198.18.0.0/15"] # 強制域名（統一使用引號）
   port-whitelist: [53, 80, 443, 993, 8080-8880] # 端口白名單
   skip-src-address: ["192.168.0.1/32"] # 跳過來源地址
   skip-dst-address: ["192.168.0.1/32"] # 跳過目的地地址
@@ -112,7 +111,7 @@ sniff:
 #  hosts（自定義域名解析映射）
 # ==============================
 hosts:
-  'localhost': 127.0.0.1 # 本地主機
+  'localhost': '127.0.0.1' # 本地主機
 
 # ==============================
 #  機場節點訂閱鏈接
@@ -128,18 +127,17 @@ proxy-providers:
   機場Name8: {url: '機場url訂閲8', <<: *NodeParam, override: {additional-prefix: "機場Name8 |", additional-suffix: "| 機場Name8"}}
   機場Name9: {url: '機場url訂閲9', <<: *NodeParam, override: {additional-prefix: "機場Name9 |", additional-suffix: "| 機場Name9"}}
 
-
 # ==============================
 #  私人節點
 # ==============================    
 # proxies: 
 
-proxy-groups:
 # ==============================
 #  策略組
 # ==============================
+proxy-groups:
   # 節點測試
-  - &temporary_group { name: Tester, <<: *Tester}
+  - &temporary_group { name: Tester, type: select, url: 'http://cp.cloudflare.com', expected-status: 200, include-all: true, filter: "(?i:).*" , proxies: [DIRECT], hidden : false}
   # 全局策略
   - { name: 🌐 Global, type: select, proxies: [DIRECT, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
   
@@ -149,40 +147,183 @@ proxy-groups:
   - { name: 🇨🇳 Default 🇨🇳, type: select, proxies: [DIRECT, 🇨🇳 China] }
 
   # 流媒體與應用策略組
-  - { name: 🎦 Netflix, <<: *default }
-  - { name: 🎞️ Disney+, <<: *default }
-  - { name: 📺 動畫瘋, <<: *default }
-  - { name: 🎬 HBO, <<: *default }
-  - { name: 🎥 Hulu, <<: *default }
-  - { name: 🎞️ PrimeVideo, <<: *default }
-  - { name: 📡 IPTV, <<: *default }
-  - { name: 📽️ BiliBili, <<: *default }
-  - { name: 📺 iQiYi, <<: *default }
-  - { name: 📱 Tiktok, <<: *default }
-  - { name: 🎞️ Vimeo, <<: *default }
-  - { name: 🧠 AI, <<: *default }
-  - { name: 🎦 大陸影片Apps, <<: *default }
+  - { name: 🎦 Netflix, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 🎞️ Disney+, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 📺 動畫瘋, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 🎬 HBO, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 🎥 Hulu, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 🎞️ PrimeVideo, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 📡 IPTV, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 📽️ BiliBili, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 📺 iQiYi, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 📱 Tiktok, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 🎞️ Vimeo, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 🧠 AI, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  - { name: 🎦 大陸影片Apps, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
   - { name: 📺 Emby, type: select, include-all: true, filter: "Emby" }
 
   # 國家節點
-  - &china_group { name: 🇨🇳 China, <<: *load-balance, health-check: {url: "http://www.baidu.com/generate_204"}, filter: "(?i)(?=.*日志.*)^(?!.*(?:限速).*$)" }
-  - &hongkong_group { name: 🇭🇰 HongKong, <<: *load-balance, health-check: {url: "http://www.google.com.hk/generate_204"}, filter: "(?i)(?=.*(?:🇭🇰|香|港|香港|香江|深港|沪港|京港|香岛|湾仔|港仔|九龙|铜锣湾|旺角|Hong|HongKong).*)^(?!.*(?:台湾|日本|tashkent|新加坡|美国|韩国|狮城|南朝鲜|US|SG|JP|KR|TW|台灣|美國|韓國|獅城|限速).*)" }
-  - &macau_group { name: 🇲🇴 Macau, <<: *load-balance, health-check: { url: ['http://captive.apple.com', 'http://www.google.com/generate_204', 'http://www.ctm.net'], lazy: true, expected-status: [204, 204, 200]}, filter: "(?i)(?=.*(?:MAU|Macau|Macao|澳門|澳门).*)^(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|韓國|美國|獅城|限速).*)" }
-  - &taiwan_group { name: 🇹🇼 Taiwan, <<: *load-balance, health-check: { url: "http://www.google.com.tw/generate_204"}, filter: "(?i)(?=.*(?:🇹🇼|台|台湾|台北|新北|桃园|台中|台南|高雄|基隆|新竹|嘉义|苗栗|彰化|南投|云林|屏东|台东|花莲|宜兰|澎湖|金门|连江|TW|Taiwan|Tai wan).*)^(?!.*(?:港|日|韩|新|美|限速).*)" }
-  - &japan_group { name: 🇯🇵 Japan, <<: *load-balance, health-check: {url: "http://www.google.co.jp/generate_204"}, filter: "(?i)(?=.*(?:🇯🇵|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan|名古屋|福冈|仙台|京都|京日|苏日|上日|Tokyo|tokyo|广日|深日|港日).*)^(?!.*(?:日志|尼日利亚|香港|台湾|新加坡|美国|韩国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|美國|韓國|獅城|尼日利|限速).*)" }
-  - &korea_group { name: 🇰🇷 Korea, <<: *load-balance, health-check: { url: "http://www.google.co.kr/generate_204"}, filter: "(?i)(?=.*(?:🇰🇷|韩|韩国|南韩|南朝鲜|高丽|大韩民国|首尔|世宗|济州市|水原|釜山|大邱|仁川|光州|大田|蔚山|Korea|Korean|South Korea|韓|KOR|春川).*)^(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝|US|UK|SG|HK|TW|台灣|美國|獅城|UKRAINE|限速).*)" }
-  - &usa_group { name: 🇺🇸 USA, <<: *load-balance, health-check: { url: "http://www.google.com/generate_204"}, filter: "(?i)(?=.*(?:🇺🇸|google|美国|纽约|沪美|美利坚合众国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|华盛顿|内华达|蒙大纳|怀俄明州|菲尼克斯|阿尔伯克基|丹佛|United States|States|American|America|america).*)^(?!.*(?:香港|台湾|新加坡|狮城|南朝鲜|SG|KR|HK|TW|台灣|韓國|獅城|限速).*)" }
-  - &sg_group { name: 🇸🇬 Singapore, <<: *load-balance, health-check: { url: "http://www.google.com.sg/generate_204"}, filter: "(?i)(?=.*(?:🇸🇬|新|狮|獅|坡|新加坡|星|星加坡|星洲|狮城|SG|Singapore|Sing|sing|沪新|京新|深新|杭新|广新).*)^(?!.*(?:最新网址|香港|台湾|日本|美国|韩国|南朝鲜|US|JP|KR|HK|TW|台灣|美國|韓國|限速).*)" }
-  - &malaysia_group { name: 🇲🇾 Malaysia, <<: *load-balance, health-check: { url: "http://www.google.com.my/generate_204"}, filter: "(?i)(?=.*(?:馬來西亞|🇲🇾|Malaysia|马来西亚).*)^(?!.*(?:限速).*)" }
-  - &thailand_group { name: 🇹🇭 Thailand, <<: *load-balance, health-check: { url: "http://www.google.co.th/generate_204"}, filter: "(?i)(?=.*(?:🇹🇭|泰|泰国|Bangkok|Thailand).*)^(?!.*(?:限速).*)" }
-  - &argentina_group { name: 🇦🇷 Argentina, <<: *load-balance, health-check: { url: "http://www.google.com.ar/generate_204"}, filter: "(?i)(?=.*(?:🇦🇷|阿根廷|Argentina).*)^(?!.*(?:限速).*)" }
-  - &turkey_group { name: 🇹🇷 Turkey, <<: *load-balance, health-check: { url: "http://www.google.com.tr/generate_204"}, filter: "(?i)(?=.*(?:🇹🇷|土耳其|Turkey).*)^(?!.*(?:限速).*)" }
-  - &russian_group { name: 🇷🇺 Russian, <<: *load-balance, health-check: { url: "http://www.google.ru/generate_204"}, filter: "(?i)(?=.*(?:🇷🇺|俄罗斯|莫斯科|圣彼得堡|喀山|哈尔科夫|乌法|新西伯利亚|下诺夫哥罗德|沃罗涅什).*)^(?!.*(?:限速).*)" }
-  - &europe_group { name: 🇪🇺 Europe, <<: *load-balance, health-check: { url: 'http://telekom.com/generate_204' , 'http://captive.apple.com', 'http://www.google.com/generate_204', lazy: true, expected-status: [204, 204, 204]}, filter: "(?i)(?=.*(?:germany|德國|德国|france|法國|法国|italy|義大利|意大利|spain|西班牙|西班牙|poland|波蘭|波兰|romania|羅馬尼亞|罗马尼亚|netherlands|荷蘭|荷兰|belgium|比利時|比利时|czech|捷克|捷克|greece|希臘|希腊|portugal|葡萄牙|葡萄牙|sweden|瑞典|瑞典|hungary|匈牙利|匈牙利|austria|奧地利|奥地利|bulgaria|保加利亞|保加利亚|finland|芬蘭|芬兰|slovakia|斯洛伐克|斯洛伐克|croatia|克羅埃西亞|克罗地亚|denmark|丹麥|丹麦|ireland|愛爾蘭|爱尔兰|lithuania|立陶宛|立陶宛|slovenia|斯洛文尼亞|斯洛文尼亚|latvia|拉脫維亞|拉脱维亚|estonia|愛沙尼亞|爱沙尼亚|cyprus|賽普勒斯|塞浦路斯|luxembourg|盧森堡|卢森堡|malta|馬耳他|马耳他).*)(?!.*(?:限速).*)" }
+  - &china_group { name: 🇨🇳 China, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: {url: "http://www.baidu.com/generate_204"}, filter: "(?i)(?=.*日志.*)^(?!.*(?:限速).*$)" }}
+  - &hongkong_group { name: 🇭🇰 HongKong, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: {url: "http://www.google.com.hk/generate_204"}, filter: "(?i)(?=.*(?:🇭🇰|香|港|香港|香江|深港|沪港|京港|香岛|湾仔|港仔|九龙|铜锣湾|旺角|Hong|HongKong).*)^(?!.*(?:台湾|日本|tashkent|新加坡|美国|韩国|狮城|南朝鲜|US|SG|JP|KR|TW|台灣|美國|韓國|獅城|限速).*)" }}
+  - &macau_group { name: 🇲🇴 Macau, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: ['http://captive.apple.com', 'http://www.google.com/generate_204', 'http://www.ctm.net'], lazy: true, expected-status: [204, 204, 200]}, filter: "(?i)(?=.*(?:MAU|Macau|Macao|澳門|澳门).*)^(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|韓國|美國|獅城|限速).*)" }}
+  - &taiwan_group { name: 🇹🇼 Taiwan, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.tw/generate_204"}, filter: "(?i)(?=.*(?:🇹🇼|台|台湾|台北|新北|桃园|台中|台南|高雄|基隆|新竹|嘉义|苗栗|彰化|南投|云林|屏东|台东|花莲|宜兰|澎湖|金门|连江|TW|Taiwan|Tai wan).*)^(?!.*(?:港|日|韩|新|美|限速).*)" }}
+  - &japan_group { name: 🇯🇵 Japan, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: {url: "http://www.google.co.jp/generate_204"}, filter: "(?i)(?=.*(?:🇯🇵|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan|名古屋|福冈|仙台|京都|京日|苏日|上日|Tokyo|tokyo|广日|深日|港日).*)^(?!.*(?:日志|尼日利亚|香港|台湾|新加坡|美国|韩国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|美國|韓國|獅城|尼日利|限速).*)" }}
+  - &korea_group { name: 🇰🇷 Korea, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.co.kr/generate_204"}, filter: "(?i)(?=.*(?:🇰🇷|韩|韩国|南韩|南朝鲜|高丽|大韩民国|首尔|世宗|济州市|水原|釜山|大邱|仁川|光州|大田|蔚山|Korea|Korean|South Korea|韓|KOR|春川).*)^(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝|US|UK|SG|HK|TW|台灣|美國|獅城|UKRAINE|限速).*)" }}
+  - &usa_group { name: 🇺🇸 USA, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com/generate_204"}, filter: "(?i)(?=.*(?:🇺🇸|google|美国|纽约|沪美|美利坚合众国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|华盛顿|内华达|蒙大纳|怀俄明州|菲尼克斯|阿尔伯克基|丹佛|United States|States|American|America|america).*)^(?!.*(?:香港|台湾|新加坡|狮城|南朝鲜|SG|KR|HK|TW|台灣|韓國|獅城|限速).*)" }}
+  - &sg_group { name: 🇸🇬 Singapore, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.sg/generate_204"}, filter: "(?i)(?=.*(?:🇸🇬|新|狮|獅|坡|新加坡|星|星加坡|星洲|狮城|SG|Singapore|Sing|sing|沪新|京新|深新|杭新|广新).*)^(?!.*(?:最新网址|香港|台湾|日本|美国|韩国|南朝鲜|US|JP|KR|HK|TW|台灣|美國|韓國|限速).*)" }}
+  - &malaysia_group { name: 🇲🇾 Malaysia, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.my/generate_204"}, filter: "(?i)(?=.*(?:馬來西亞|🇲🇾|Malaysia|马来西亚).*)^(?!.*(?:限速).*)" }}
+  - &thailand_group { name: 🇹🇭 Thailand, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.co.th/generate_204"}, filter: "(?i)(?=.*(?:🇹🇭|泰|泰国|Bangkok|Thailand).*)^(?!.*(?:限速).*)" }}
+  - &argentina_group { name: 🇦🇷 Argentina, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.ar/generate_204"}, filter: "(?i)(?=.*(?:🇦🇷|阿根廷|Argentina).*)^(?!.*(?:限速).*)" }}
+  - &turkey_group { name: 🇹🇷 Turkey, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.tr/generate_204"}, filter: "(?i)(?=.*(?:🇹🇷|土耳其|Turkey).*)^(?!.*(?:限速).*)" }}
+  - &russian_group { name: 🇷🇺 Russian, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.ru/generate_204"}, filter: "(?i)(?=.*(?:🇷🇺|俄罗斯|莫斯科|圣彼得堡|喀山|哈尔科夫|乌法|新西伯利亚|下诺夫哥罗德|沃罗涅什).*)^(?!.*(?:限速).*)" }}
+  - &europe_group { name: 🇪🇺 Europe, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: 'http://telekom.com/generate_204' , 'http://captive.apple.com', 'http://www.google.com/generate_204', lazy: true, expected-status: [204, 204, 204]}, filter: "(?i)(?=.*(?:germany|德國|德国|france|法國|法国|italy|義大利|意大利|spain|西班牙|西班牙|poland|波蘭|波兰|romania|羅馬尼亞|罗马尼亚|netherlands|荷蘭|荷兰|belgium|比利時|比利时|czech|捷克|捷克|greece|希臘|希腊|portugal|葡萄牙|葡萄牙|sweden|瑞典|瑞典|hungary|匈牙利|匈牙利|austria|奧地利|奥地利|bulgaria|保加利亞|保加利亚|finland|芬蘭|芬兰|slovakia|斯洛伐克|斯洛伐克|croatia|克羅埃西亞|克罗地亚|denmark|丹麥|丹麦|ireland|愛爾蘭|爱尔兰|lithuania|立陶宛|立陶宛|slovenia|斯洛文尼亞|斯洛文尼亚|latvia|拉脫維亞|拉脱维亚|estonia|愛沙尼亞|爱沙尼亚|cyprus|賽普勒斯|塞浦路斯|luxembourg|盧森堡|卢森堡|malta|馬耳他|马耳他).*)(?!.*(?:限速).*)" }}
   # 特殊節點
   - &home_group { name: 🌟 HOME, type: select, include-all: true, filter: "HOME" }
-  - &friend_group { name: 🏡 Friend Home, type: select, include-all: true, filter: "🏡|🏠|Friend" }
+  - &peter_group { name: 🏡 Friend Home, type: select, include-all: true, filter: "🏡|🏠|Friend" }
   
+# ==============================
+#  規則
+# ==============================
+# PASS(繞過)，会使匹配規則時跳過此規則
+# 常用網站建議 DOMAIN-SUFFIX,example.hk,🚀 Default
+rules:
+ - DOMAIN-SUFFIX,18u8qxgf9h.execute-api.us-east-1.amazonaws.com,🇭🇰 Default 🇲🇴
+ - DOMAIN-SUFFIX,php2.opentimeclock.com,🇭🇰 Default 🇲🇴
+ - RULE-SET,MetaAI-NotebookLM,🧠 AI
+ - RULE-SET,Gemini,🧠 AI
+ - RULE-SET,Gemini-1,🧠 AI
+ - RULE-SET,OpenAI,🧠 AI
+ - RULE-SET,Claude,🧠 AI
+ - IP-CIDR,160.79.104.0/21,🧠 AI
+ - RULE-SET,eBay,🌐 Global
+ - RULE-SET,HKTR,🌐 Global
+ - RULE-SET,USA,🇺🇸 USA
+ - RULE-SET,Emby,📺 Emby
+ - DOMAIN-SUFFIX,grok.com,🌐 Global
+ - DOMAIN-SUFFIX,x.ai,🌐 Global
+ - DOMAIN-SUFFIX,felo.ai,🌐 Global
+ - DOMAIN-SUFFIX,perplexity.ai,🌐 Global
+ - DOMAIN-SUFFIX,futunn.com,🌐 Global
+ - DOMAIN-SUFFIX,futuhk.com,🌐 Global
+ - DOMAIN-SUFFIX,pystyle.info,🌐 Global
+ - RULE-SET,AniGamer,📺 動畫瘋
+ - DOMAIN-SUFFIX,gamer.com.tw,🌐 Global
+ - RULE-SET,Bank-HK,🇭🇰 Default 🇲🇴
+ - RULE-SET,Majsoul,🌐 Global
+ - RULE-SET,HoYoverse,🌐 Global
+ - RULE-SET,KTR-Web,🇰🇷 Korea
+ - RULE-SET,Telegram,🇸🇬 Singapore
+ - RULE-SET,Telegram-ipcidr,🇸🇬 Singapore
+ - RULE-SET,Hkgolden,🇭🇰 Default 🇲🇴
+ - DOMAIN-KEYWORD,hkjc,🇭🇰 Default 🇲🇴
+ - RULE-SET,Line,🌐 Global
+ - RULE-SET,Facebook,🌐 Global
+ - RULE-SET,Instagram,🌐 Global
+ - RULE-SET,Threads,🌐 Global
+ - RULE-SET,Discord,🌐 Global
+ - RULE-SET,Whatsapp,🌐 Global
+ - RULE-SET,LinkedIn,🌐 Global
+ - RULE-SET,Anime,🌐 Global
+ - RULE-SET,Youtube,🌐 Global
+ - RULE-SET,Youtube-Music,🌐 Global
+ - RULE-SET,AppleMusic,🌐 Global
+ - RULE-SET,Spotify,🌐 Global
+ - RULE-SET,JOOX,🇭🇰 Default 🇲🇴
+ - RULE-SET,KKBOX,🌐 Global
+ - RULE-SET,MOOV,🇭🇰 Default 🇲🇴
+ - RULE-SET,Twitch,🌐 Global
+ - RULE-SET,Google,🌐 Global
+ - DOMAIN-SUFFIX,vtuber.hk,🌐 Global
+ - RULE-SET,GoogleEarth,🌐 Global
+ - RULE-SET,GoogleDrive,🌐 Global
+ - RULE-SET,Microsoft,🌐 Global
+ - RULE-SET,OneDrive,🌐 Global
+ - RULE-SET,Netflix,🎦 Netflix
+ - RULE-SET,Disney,🎞️ Disney+
+ - RULE-SET,PrimeViedo,🎞️ PrimeVideo
+ - RULE-SET,AmazonPrimeVideo,🎞️ PrimeVideo
+ - RULE-SET,TVB,🇭🇰 Default 🇲🇴
+ - RULE-SET,MyTVSUPER,🇭🇰 Default 🇲🇴
+ - RULE-SET,ViuTV,🇭🇰 Default 🇲🇴
+ - RULE-SET,HKOpenTV,🇭🇰 Default 🇲🇴
+ - RULE-SET,Hulu,🎥 Hulu
+ - RULE-SET,HuluJP,🎥 Hulu
+ - RULE-SET,HuluUSA,🎥 Hulu
+ - RULE-SET,HamiVideo,🇹🇼 Default 🇹🇼
+ - RULE-SET,Vimeo,🎞️ Vimeo
+ - RULE-SET,HBO,🎬 HBO
+ - RULE-SET,LineTV,🇹🇼 Default 🇹🇼
+ - RULE-SET,AppleTV,🌐 Global
+ - RULE-SET,Paypal,🌐 Global
+ - RULE-SET,Adobe,🌐 Global
+ - RULE-SET,Github,🌐 Global
+ - RULE-SET,MEGA,🌐 Global
+ - RULE-SET,IPTV-other,📡 IPTV
+ - RULE-SET,Pixiv,🌐 Global
+ - RULE-SET,AppleDaily,🌐 Global
+ - RULE-SET,QuickConnect,🌐 Global
+ - RULE-SET,Amazon,🌐 Global
+ - RULE-SET,Smartone,🇭🇰 Default 🇲🇴
+ - RULE-SET,Reddit,🌐 Global
+ - RULE-SET,Razer,🌐 Global
+ - RULE-SET,Siri,🧠 AI
+ - DOMAIN,apple-relay.apple.com,🧠 AI
+ - DOMAIN,apple-relay.cloudflare.com,🧠 AI
+ - RULE-SET,Apple,🌐 Global
+ - RULE-SET,AppleMedia,🌐 Global
+ - RULE-SET,iCloud,🌐 Global
+ - RULE-SET,iCloudPrivateRelay,🌐 Global
+ - RULE-SET,AppleProxy,🌐 Global
+ - RULE-SET,AppleMail,🌐 Global
+ - RULE-SET,Find,🌐 Global
+ - RULE-SET,AppleID,🌐 Global
+ - RULE-SET,AppleHardWare,🌐 Global
+ - RULE-SET,TestFlight,🌐 Global
+ - RULE-SET,AppStore,🌐 Global
+ - RULE-SET,IMDB,🌐 Global
+ - RULE-SET,Mcdonalds,🌐 Global
+ - RULE-SET,Tiktok,📱 Tiktok
+ - IP-CIDR,39.107.142.158/24,📽️ BiliBili,no-resolve
+ - RULE-SET,Bilibili,📽️ BiliBili
+ - RULE-SET,BilibiliNTL,📽️ BiliBili
+ - RULE-SET,iQiYi,📺 iQiYi
+ - RULE-SET,iQiYiIntl,📺 iQiYi
+ - RULE-SET,MeiTuan,DIRECT
+ - RULE-SET,Pinduoduo,DIRECT
+ - RULE-SET,JingDong,DIRECT
+ - RULE-SET,Zhihu,DIRECT
+ - RULE-SET,Baidu,DIRECT
+ - RULE-SET,Download,DIRECT
+ - RULE-SET,Lan,DIRECT
+ - RULE-SET,Developer,DIRECT
+ - RULE-SET,AliPay,DIRECT
+ - RULE-SET,WeChat,DIRECT
+ - RULE-SET,GaoDe,DIRECT
+ - RULE-SET,DiDi,DIRECT
+ - RULE-SET,ChinaMedia,🎦 大陸影片Apps
+ - RULE-SET,TencentVideo,🎦 大陸影片Apps
+ - RULE-SET,DouBan,🎦 大陸影片Apps
+ - RULE-SET,KuaiShou,🎦 大陸影片Apps
+ - RULE-SET,Douyin,🎦 大陸影片Apps
+ - RULE-SET,NetEaseMusic,🇨🇳 Default 🇨🇳
+ - RULE-SET,KugouKuwo,🇨🇳 Default 🇨🇳
+ - RULE-SET,WanMeiShiJie,🇨🇳 Default 🇨🇳
+ - RULE-SET,Sina,🇨🇳 Default 🇨🇳
+ - RULE-SET,Weibo,🇨🇳 Default 🇨🇳
+ - RULE-SET,Alibaba,🇨🇳 Default 🇨🇳
+ - RULE-SET,XiaoHongShu,DIRECT
+ - RULE-SET,Adrules,REJECT
+ - RULE-SET,ZhihuAds,REJECT
+ - RULE-SET,Hijacking,REJECT
+ - RULE-SET,Privacy,REJECT
+ - RULE-SET,AdGuardSDNSFilter,REJECT
+ - RULE-SET,HttpDNSblock,REJECT
+ - RULE-SET,Adrules-1,REJECT
+ - GEOSITE,CN,🇨🇳 Default 🇨🇳
+ - GEOIP,CN,🇨🇳 Default 🇨🇳,no-resolve
+ - RULE-SET,Rule,DIRECT
+ - MATCH,🌐 Global
+
 # ==============================
 #  Rule-set 規則集
 # ==============================
@@ -394,146 +535,3 @@ rule-providers:
   Privacy: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml, <<: *rule-set}
   AdGuardSDNSFilter: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AdGuardSDNSFilter/AdGuardSDNSFilter_Classical.yaml, <<: *rule-set}
   HttpDNSblock: { url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS.yaml, <<: *rule-set}
-
-  # ==============================
-#  規則
-# ==============================
-# PASS(繞過)，会使匹配規則時跳過此規則
-# 常用網站建議 DOMAIN-SUFFIX,example.hk,🚀 Default
-rules:
- - DOMAIN-SUFFIX,18u8qxgf9h.execute-api.us-east-1.amazonaws.com,🇭🇰 Default 🇲🇴
- - DOMAIN-SUFFIX,php2.opentimeclock.com,🇭🇰 Default 🇲🇴
- - RULE-SET,MetaAI-NotebookLM,🧠 AI
- - RULE-SET,Gemini,🧠 AI
- - RULE-SET,Gemini-1,🧠 AI
- - RULE-SET,OpenAI,🧠 AI
- - RULE-SET,Claude,🧠 AI
- - IP-CIDR,160.79.104.0/21,🧠 AI
- - RULE-SET,eBay,🌐 Global
- - RULE-SET,HKTR,🌐 Global
- - RULE-SET,USA,🇺🇸 USA
- - RULE-SET,Emby,📺 Emby
- - DOMAIN-SUFFIX,grok.com,🌐 Global
- - DOMAIN-SUFFIX,x.ai,🌐 Global
- - DOMAIN-SUFFIX,felo.ai,🌐 Global
- - DOMAIN-SUFFIX,perplexity.ai,🌐 Global
- - DOMAIN-SUFFIX,futunn.com,🌐 Global
- - DOMAIN-SUFFIX,futuhk.com,🌐 Global
- - DOMAIN-SUFFIX,pystyle.info,🌐 Global
- - RULE-SET,AniGamer,📺 動畫瘋
- - DOMAIN-SUFFIX,gamer.com.tw,🌐 Global
- - RULE-SET,Bank-HK,🇭🇰 Default 🇲🇴
- - RULE-SET,Majsoul,🌐 Global
- - RULE-SET,HoYoverse,🌐 Global
- - RULE-SET,KTR-Web,🇰🇷 Korea
- - RULE-SET,Telegram,🇸🇬 Singapore
- - RULE-SET,Telegram-ipcidr,🇸🇬 Singapore
- - RULE-SET,Hkgolden,🇭🇰 Default 🇲🇴
- - DOMAIN-KEYWORD,hkjc,🇭🇰 Default 🇲🇴
- - RULE-SET,Line,🌐 Global
- - RULE-SET,Facebook,🌐 Global
- - RULE-SET,Instagram,🌐 Global
- - RULE-SET,Threads,🌐 Global
- - RULE-SET,Discord,🌐 Global
- - RULE-SET,Whatsapp,🌐 Global
- - RULE-SET,LinkedIn,🌐 Global
- - RULE-SET,Anime,🌐 Global
- - RULE-SET,Youtube,🌐 Global
- - RULE-SET,Youtube-Music,🌐 Global
- - RULE-SET,AppleMusic,🌐 Global
- - RULE-SET,Spotify,🌐 Global
- - RULE-SET,JOOX,🇭🇰 Default 🇲🇴
- - RULE-SET,KKBOX,🌐 Global
- - RULE-SET,MOOV,🇭🇰 Default 🇲🇴
- - RULE-SET,Twitch,🌐 Global
- - RULE-SET,Google,🌐 Global
- - DOMAIN-SUFFIX,vtuber.hk,🌐 Global
- - RULE-SET,GoogleEarth,🌐 Global
- - RULE-SET,GoogleDrive,🌐 Global
- - RULE-SET,Microsoft,🌐 Global
- - RULE-SET,OneDrive,🌐 Global
- - RULE-SET,Netflix,🎦 Netflix
- - RULE-SET,Disney,🎞️ Disney+
- - RULE-SET,PrimeViedo,🎞️ PrimeVideo
- - RULE-SET,AmazonPrimeVideo,🎞️ PrimeVideo
- - RULE-SET,TVB,🇭🇰 Default 🇲🇴
- - RULE-SET,MyTVSUPER,🇭🇰 Default 🇲🇴
- - RULE-SET,ViuTV,🇭🇰 Default 🇲🇴
- - RULE-SET,HKOpenTV,🇭🇰 Default 🇲🇴
- - RULE-SET,Hulu,🎥 Hulu
- - RULE-SET,HuluJP,🎥 Hulu
- - RULE-SET,HuluUSA,🎥 Hulu
- - RULE-SET,HamiVideo,🇹🇼 Default 🇹🇼
- - RULE-SET,Vimeo,🎞️ Vimeo
- - RULE-SET,HBO,🎬 HBO
- - RULE-SET,LineTV,🇹🇼 Default 🇹🇼
- - RULE-SET,AppleTV,🌐 Global
- - RULE-SET,Paypal,🌐 Global
- - RULE-SET,Adobe,🌐 Global
- - RULE-SET,Github,🌐 Global
- - RULE-SET,MEGA,🌐 Global
- - RULE-SET,IPTV-other,📡 IPTV
- - RULE-SET,Pixiv,🌐 Global
- - RULE-SET,AppleDaily,🌐 Global
- - RULE-SET,QuickConnect,🌐 Global
- - RULE-SET,Amazon,🌐 Global
- - RULE-SET,Smartone,🇭🇰 Default 🇲🇴
- - RULE-SET,Reddit,🌐 Global
- - RULE-SET,Razer,🌐 Global
- - RULE-SET,Siri,🧠 AI
- - DOMAIN,apple-relay.apple.com,🧠 AI
- - DOMAIN,apple-relay.cloudflare.com,🧠 AI
- - RULE-SET,Apple,🌐 Global
- - RULE-SET,AppleMedia,🌐 Global
- - RULE-SET,iCloud,🌐 Global
- - RULE-SET,iCloudPrivateRelay,🌐 Global
- - RULE-SET,AppleProxy,🌐 Global
- - RULE-SET,AppleMail,🌐 Global
- - RULE-SET,Find,🌐 Global
- - RULE-SET,AppleID,🌐 Global
- - RULE-SET,AppleHardWare,🌐 Global
- - RULE-SET,TestFlight,🌐 Global
- - RULE-SET,AppStore,🌐 Global
- - RULE-SET,IMDB,🌐 Global
- - RULE-SET,Mcdonalds,🌐 Global
- - RULE-SET,Tiktok,📱 Tiktok
- - IP-CIDR,39.107.142.158/24,📽️ BiliBili,no-resolve
- - RULE-SET,Bilibili,📽️ BiliBili
- - RULE-SET,BilibiliNTL,📽️ BiliBili
- - RULE-SET,iQiYi,📺 iQiYi
- - RULE-SET,iQiYiIntl,📺 iQiYi
- - RULE-SET,MeiTuan,DIRECT
- - RULE-SET,Pinduoduo,DIRECT
- - RULE-SET,JingDong,DIRECT
- - RULE-SET,Zhihu,DIRECT
- - RULE-SET,Baidu,DIRECT
- - RULE-SET,Download,DIRECT
- - RULE-SET,Lan,DIRECT
- - RULE-SET,Developer,DIRECT
- - RULE-SET,AliPay,DIRECT
- - RULE-SET,WeChat,DIRECT
- - RULE-SET,GaoDe,DIRECT
- - RULE-SET,DiDi,DIRECT
- - RULE-SET,ChinaMedia,🎦 大陸影片Apps
- - RULE-SET,TencentVideo,🎦 大陸影片Apps
- - RULE-SET,DouBan,🎦 大陸影片Apps
- - RULE-SET,KuaiShou,🎦 大陸影片Apps
- - RULE-SET,Douyin,🎦 大陸影片Apps
- - RULE-SET,NetEaseMusic,🇨🇳 Default 🇨🇳
- - RULE-SET,KugouKuwo,🇨🇳 Default 🇨🇳
- - RULE-SET,WanMeiShiJie,🇨🇳 Default 🇨🇳
- - RULE-SET,Sina,🇨🇳 Default 🇨🇳
- - RULE-SET,Weibo,🇨🇳 Default 🇨🇳
- - RULE-SET,Alibaba,🇨🇳 Default 🇨🇳
- - RULE-SET,XiaoHongShu,DIRECT
- - RULE-SET,Adrules,REJECT
- - RULE-SET,ZhihuAds,REJECT
- - RULE-SET,Hijacking,REJECT
- - RULE-SET,Privacy,REJECT
- - RULE-SET,AdGuardSDNSFilter,REJECT
- - RULE-SET,HttpDNSblock,REJECT
- - RULE-SET,Adrules-1,REJECT
- - GEOSITE,CN,🇨🇳 Default 🇨🇳
- - GEOIP,CN,🇨🇳 Default 🇨🇳,no-resolve
- - RULE-SET,Rule,DIRECT
- - MATCH,🌐 Global

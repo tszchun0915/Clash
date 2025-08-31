@@ -35,10 +35,14 @@ payload:
   - DOMAIN,notebooklm-api.googleapis.com
   - DOMAIN,notebooklm.googleapis.com
 
-  - DOMAIN-SUFFIX,anthropic.com
+  # Claude
   - DOMAIN,cdn.usefathom.com
+  - DOMAIN-SUFFIX,anthropic.com
   - DOMAIN-SUFFIX,claude.ai
   - IP-CIDR,160.79.104.0/21
+  - DOMAIN-SUFFIX,googletagmanager.com
+  - DOMAIN-SUFFIX,hubspotonwebflow.com
+  - DOMAIN,d3e54v103j8qbb.cloudfront.net
   
   # Gemini
   - DOMAIN,ai.google.dev

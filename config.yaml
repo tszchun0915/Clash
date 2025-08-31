@@ -134,6 +134,55 @@ proxy-providers:
 # ==============================    
 # proxies: 
 
+proxy-groups:
+# ==============================
+#  策略組
+# ==============================
+  # 節點測試
+  - &temporary_group { name: Tester, <<: *Tester}
+  # 全局策略
+  - { name: 🌐 Global, type: select, proxies: [DIRECT, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
+  
+  # 地區策略組
+  - { name: 🇭🇰 Default 🇲🇴, type: select, proxies: [DIRECT, 🇭🇰 HongKong, 🇲🇴 Macau, 🏡 Friend Home, 🌟 HOME] }
+  - { name: 🇹🇼 Default 🇹🇼, type: select, proxies: [DIRECT, 🇹🇼 Taiwan] }
+  - { name: 🇨🇳 Default 🇨🇳, type: select, proxies: [DIRECT, 🇨🇳 China] }
+
+  # 流媒體與應用策略組
+  - { name: 🎦 Netflix, <<: *default }
+  - { name: 🎞️ Disney+, <<: *default }
+  - { name: 📺 動畫瘋, <<: *default }
+  - { name: 🎬 HBO, <<: *default }
+  - { name: 🎥 Hulu, <<: *default }
+  - { name: 🎞️ PrimeVideo, <<: *default }
+  - { name: 📡 IPTV, <<: *default }
+  - { name: 📽️ BiliBili, <<: *default }
+  - { name: 📺 iQiYi, <<: *default }
+  - { name: 📱 Tiktok, <<: *default }
+  - { name: 🎞️ Vimeo, <<: *default }
+  - { name: 🧠 AI, <<: *default }
+  - { name: 🎦 大陸影片Apps, <<: *default }
+  - { name: 📺 Emby, type: select, include-all: true, filter: "Emby" }
+
+  # 國家節點
+  - &china_group { name: 🇨🇳 China, <<: *load-balance, health-check: {url: "http://www.baidu.com/generate_204"}, filter: "(?i)(?=.*日志.*)^(?!.*(?:限速).*$)" }
+  - &hongkong_group { name: 🇭🇰 HongKong, <<: *load-balance, health-check: {url: "http://www.google.com.hk/generate_204"}, filter: "(?i)(?=.*(?:🇭🇰|香|港|香港|香江|深港|沪港|京港|香岛|湾仔|港仔|九龙|铜锣湾|旺角|Hong|HongKong).*)^(?!.*(?:台湾|日本|tashkent|新加坡|美国|韩国|狮城|南朝鲜|US|SG|JP|KR|TW|台灣|美國|韓國|獅城|限速).*)" }
+  - &macau_group { name: 🇲🇴 Macau, <<: *load-balance, health-check: { url: ['http://captive.apple.com', 'http://www.google.com/generate_204', 'http://www.ctm.net'], lazy: true, expected-status: [204, 204, 200]}, filter: "(?i)(?=.*(?:MAU|Macau|Macao|澳門|澳门).*)^(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|韓國|美國|獅城|限速).*)" }
+  - &taiwan_group { name: 🇹🇼 Taiwan, <<: *load-balance, health-check: { url: "http://www.google.com.tw/generate_204"}, filter: "(?i)(?=.*(?:🇹🇼|台|台湾|台北|新北|桃园|台中|台南|高雄|基隆|新竹|嘉义|苗栗|彰化|南投|云林|屏东|台东|花莲|宜兰|澎湖|金门|连江|TW|Taiwan|Tai wan).*)^(?!.*(?:港|日|韩|新|美|限速).*)" }
+  - &japan_group { name: 🇯🇵 Japan, <<: *load-balance, health-check: {url: "http://www.google.co.jp/generate_204"}, filter: "(?i)(?=.*(?:🇯🇵|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan|名古屋|福冈|仙台|京都|京日|苏日|上日|Tokyo|tokyo|广日|深日|港日).*)^(?!.*(?:日志|尼日利亚|香港|台湾|新加坡|美国|韩国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|美國|韓國|獅城|尼日利|限速).*)" }
+  - &korea_group { name: 🇰🇷 Korea, <<: *load-balance, health-check: { url: "http://www.google.co.kr/generate_204"}, filter: "(?i)(?=.*(?:🇰🇷|韩|韩国|南韩|南朝鲜|高丽|大韩民国|首尔|世宗|济州市|水原|釜山|大邱|仁川|光州|大田|蔚山|Korea|Korean|South Korea|韓|KOR|春川).*)^(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝|US|UK|SG|HK|TW|台灣|美國|獅城|UKRAINE|限速).*)" }
+  - &usa_group { name: 🇺🇸 USA, <<: *load-balance, health-check: { url: "http://www.google.com/generate_204"}, filter: "(?i)(?=.*(?:🇺🇸|google|美国|纽约|沪美|美利坚合众国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|华盛顿|内华达|蒙大纳|怀俄明州|菲尼克斯|阿尔伯克基|丹佛|United States|States|American|America|america).*)^(?!.*(?:香港|台湾|新加坡|狮城|南朝鲜|SG|KR|HK|TW|台灣|韓國|獅城|限速).*)" }
+  - &sg_group { name: 🇸🇬 Singapore, <<: *load-balance, health-check: { url: "http://www.google.com.sg/generate_204"}, filter: "(?i)(?=.*(?:🇸🇬|新|狮|獅|坡|新加坡|星|星加坡|星洲|狮城|SG|Singapore|Sing|sing|沪新|京新|深新|杭新|广新).*)^(?!.*(?:最新网址|香港|台湾|日本|美国|韩国|南朝鲜|US|JP|KR|HK|TW|台灣|美國|韓國|限速).*)" }
+  - &malaysia_group { name: 🇲🇾 Malaysia, <<: *load-balance, health-check: { url: "http://www.google.com.my/generate_204"}, filter: "(?i)(?=.*(?:馬來西亞|🇲🇾|Malaysia|马来西亚).*)^(?!.*(?:限速).*)" }
+  - &thailand_group { name: 🇹🇭 Thailand, <<: *load-balance, health-check: { url: "http://www.google.co.th/generate_204"}, filter: "(?i)(?=.*(?:🇹🇭|泰|泰国|Bangkok|Thailand).*)^(?!.*(?:限速).*)" }
+  - &argentina_group { name: 🇦🇷 Argentina, <<: *load-balance, health-check: { url: "http://www.google.com.ar/generate_204"}, filter: "(?i)(?=.*(?:🇦🇷|阿根廷|Argentina).*)^(?!.*(?:限速).*)" }
+  - &turkey_group { name: 🇹🇷 Turkey, <<: *load-balance, health-check: { url: "http://www.google.com.tr/generate_204"}, filter: "(?i)(?=.*(?:🇹🇷|土耳其|Turkey).*)^(?!.*(?:限速).*)" }
+  - &russian_group { name: 🇷🇺 Russian, <<: *load-balance, health-check: { url: "http://www.google.ru/generate_204"}, filter: "(?i)(?=.*(?:🇷🇺|俄罗斯|莫斯科|圣彼得堡|喀山|哈尔科夫|乌法|新西伯利亚|下诺夫哥罗德|沃罗涅什).*)^(?!.*(?:限速).*)" }
+  - &europe_group { name: 🇪🇺 Europe, <<: *load-balance, health-check: { url: 'http://telekom.com/generate_204' , 'http://captive.apple.com', 'http://www.google.com/generate_204', lazy: true, expected-status: [204, 204, 204]}, filter: "(?i)(?=.*(?:germany|德國|德国|france|法國|法国|italy|義大利|意大利|spain|西班牙|西班牙|poland|波蘭|波兰|romania|羅馬尼亞|罗马尼亚|netherlands|荷蘭|荷兰|belgium|比利時|比利时|czech|捷克|捷克|greece|希臘|希腊|portugal|葡萄牙|葡萄牙|sweden|瑞典|瑞典|hungary|匈牙利|匈牙利|austria|奧地利|奥地利|bulgaria|保加利亞|保加利亚|finland|芬蘭|芬兰|slovakia|斯洛伐克|斯洛伐克|croatia|克羅埃西亞|克罗地亚|denmark|丹麥|丹麦|ireland|愛爾蘭|爱尔兰|lithuania|立陶宛|立陶宛|slovenia|斯洛文尼亞|斯洛文尼亚|latvia|拉脫維亞|拉脱维亚|estonia|愛沙尼亞|爱沙尼亚|cyprus|賽普勒斯|塞浦路斯|luxembourg|盧森堡|卢森堡|malta|馬耳他|马耳他).*)(?!.*(?:限速).*)" }
+  # 特殊節點
+  - &home_group { name: 🌟 HOME, type: select, include-all: true, filter: "HOME" }
+  - &peter_group { name: 🏡 Friend Home, type: select, include-all: true, filter: "🏡|🏠|Friend" }
+  
 # ==============================
 #  Rule-set 規則集
 # ==============================
@@ -345,55 +394,6 @@ rule-providers:
   Privacy: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml, <<: *rule-set}
   AdGuardSDNSFilter: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AdGuardSDNSFilter/AdGuardSDNSFilter_Classical.yaml, <<: *rule-set}
   HttpDNSblock: { url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS.yaml, <<: *rule-set}
-
-proxy-groups:
-# ==============================
-#  策略組
-# ==============================
-  # 節點測試
-  - &temporary_group { name: Tester, <<: *Tester}
-  # 全局策略
-  - { name: 🌐 Global, type: select, proxies: [DIRECT, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  
-  # 地區策略組
-  - { name: 🇭🇰 Default 🇲🇴, type: select, proxies: [DIRECT, 🇭🇰 HongKong, 🇲🇴 Macau, 🏡 Friend Home, 🌟 HOME] }
-  - { name: 🇹🇼 Default 🇹🇼, type: select, proxies: [DIRECT, 🇹🇼 Taiwan] }
-  - { name: 🇨🇳 Default 🇨🇳, type: select, proxies: [DIRECT, 🇨🇳 China] }
-
-  # 流媒體與應用策略組
-  - { name: 🎦 Netflix, <<: *default }
-  - { name: 🎞️ Disney+, <<: *default }
-  - { name: 📺 動畫瘋, <<: *default }
-  - { name: 🎬 HBO, <<: *default }
-  - { name: 🎥 Hulu, <<: *default }
-  - { name: 🎞️ PrimeVideo, <<: *default }
-  - { name: 📡 IPTV, <<: *default }
-  - { name: 📽️ BiliBili, <<: *default }
-  - { name: 📺 iQiYi, <<: *default }
-  - { name: 📱 Tiktok, <<: *default }
-  - { name: 🎞️ Vimeo, <<: *default }
-  - { name: 🧠 AI, <<: *default }
-  - { name: 🎦 大陸影片Apps, <<: *default }
-  - { name: 📺 Emby, type: select, include-all: true, filter: "Emby" }
-
-  # 國家節點
-  - &china_group { name: 🇨🇳 China, <<: *load-balance, health-check: {url: "http://www.baidu.com/generate_204"}, filter: "(?i)(?=.*日志.*)(?!.*(?:限速).*)" }
-  - &hongkong_group { name: 🇭🇰 HongKong, <<: *load-balance, health-check: {url: "http://www.google.com.hk/generate_204"}, filter: "(?i)(?=.*(?:🇭🇰|香|港|香港|香江|深港|沪港|京港|香岛|湾仔|港仔|九龙|铜锣湾|旺角|Hong|HongKong).*)(?!.*(?:台湾|日本|tashkent|新加坡|美国|韩国|狮城|南朝鲜|US|SG|JP|KR|TW|台灣|美國|韓國|獅城|限速).*)" }
-  - &macau_group { name: 🇲🇴 Macau, <<: *load-balance, health-check: { url: ['http://captive.apple.com', 'http://www.google.com/generate_204', 'http://www.ctm.net'], lazy: true, expected-status: [204, 204, 200]}, filter: "(?i)(?=.*(?:MAU|Macau|Macao|澳門|澳门).*)(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|韓國|美國|獅城|限速).*)" }
-  - &taiwan_group { name: 🇹🇼 Taiwan, <<: *load-balance, health-check: { url: "http://www.google.com.tw/generate_204"}, filter: "(?i)(?=.*(?:🇹🇼|台|台湾|台北|新北|桃园|台中|台南|高雄|基隆|新竹|嘉义|苗栗|彰化|南投|云林|屏东|台东|花莲|宜兰|澎湖|金门|连江|TW|Taiwan|Tai wan).*)(?!.*(?:港|日|韩|新|美|限速).*)" }
-  - &japan_group { name: 🇯🇵 Japan, <<: *load-balance, health-check: {url: "http://www.google.co.jp/generate_204"}, filter: "(?i)(?=.*(?:🇯🇵|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan|名古屋|福冈|仙台|京都|京日|苏日|上日|Tokyo|tokyo|广日|深日|港日).*)(?!.*(?:日志|尼日利亚|香港|台湾|新加坡|美国|韩国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|美國|韓國|獅城|尼日利|限速).*)" }
-  - &korea_group { name: 🇰🇷 Korea, <<: *load-balance, health-check: { url: "http://www.google.co.kr/generate_204"}, filter: "(?i)(?=.*(?:🇰🇷|韩|韩国|南韩|南朝鲜|高丽|大韩民国|首尔|世宗|济州市|水原|釜山|大邱|仁川|光州|大田|蔚山|Korea|Korean|South Korea|韓|KOR|春川).*)(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝|US|UK|SG|HK|TW|台灣|美國|獅城|UKRAINE|限速).*)" }
-  - &usa_group { name: 🇺🇸 USA, <<: *load-balance, health-check: { url: "http://www.google.com/generate_204"}, filter: "(?i)(?=.*(?:🇺🇸|google|美国|纽约|沪美|美利坚合众国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|华盛顿|内华达|蒙大纳|怀俄明州|菲尼克斯|阿尔伯克基|丹佛|United States|States|American|America|america).*)(?!.*(?:香港|台湾|新加坡|狮城|南朝鲜|SG|KR|HK|TW|台灣|韓國|獅城|限速).*)" }
-  - &sg_group { name: 🇸🇬 Singapore, <<: *load-balance, health-check: { url: "http://www.google.com.sg/generate_204"}, filter: "(?i)(?=.*(?:🇸🇬|新|狮|獅|坡|新加坡|星|星加坡|星洲|狮城|SG|Singapore|Sing|sing|沪新|京新|深新|杭新|广新).*)(?!.*(?:最新网址|香港|台湾|日本|美国|韩国|南朝鲜|US|JP|KR|HK|TW|台灣|美國|韓國|限速).*)" }
-  - &malaysia_group { name: 🇲🇾 Malaysia, <<: *load-balance, health-check: { url: "http://www.google.com.my/generate_204"}, filter: "(?i)(?=.*(?:馬來西亞|🇲🇾|Malaysia|马来西亚).*)(?!.*(?:限速).*)" }
-  - &thailand_group { name: 🇹🇭 Thailand, <<: *load-balance, health-check: { url: "http://www.google.co.th/generate_204"}, filter: "(?i)(?=.*(?:🇹🇭|泰|泰国|Bangkok|Thailand).*)(?!.*(?:限速).*)" }
-  - &argentina_group { name: 🇦🇷 Argentina, <<: *load-balance, health-check: { url: "http://www.google.com.ar/generate_204"}, filter: "(?i)(?=.*(?:🇦🇷|阿根廷|Argentina).*)(?!.*(?:限速).*)" }
-  - &turkey_group { name: 🇹🇷 Turkey, <<: *load-balance, health-check: { url: "http://www.google.com.tr/generate_204"}, filter: "(?i)(?=.*(?:🇹🇷|土耳其|Turkey).*)(?!.*(?:限速).*)" }
-  - &russian_group { name: 🇷🇺 Russian, <<: *load-balance, health-check: { url: "http://www.google.ru/generate_204"}, filter: "(?i)(?=.*(?:🇷🇺|俄罗斯|莫斯科|圣彼得堡|喀山|哈尔科夫|乌法|新西伯利亚|下诺夫哥罗德|沃罗涅什).*)(?!.*(?:限速).*)" }
-  - &europe_group { name: 🇪🇺 Europe, <<: *load-balance, health-check: { url: 'http://telekom.com/generate_204' , 'http://captive.apple.com', 'http://www.google.com/generate_204', lazy: true, expected-status: [204, 204, 204]}, filter: "(?i)(?=.*(?:germany|德國|德国|france|法國|法国|italy|義大利|意大利|spain|西班牙|西班牙|poland|波蘭|波兰|romania|羅馬尼亞|罗马尼亚|netherlands|荷蘭|荷兰|belgium|比利時|比利时|czech|捷克|捷克|greece|希臘|希腊|portugal|葡萄牙|葡萄牙|sweden|瑞典|瑞典|hungary|匈牙利|匈牙利|austria|奧地利|奥地利|bulgaria|保加利亞|保加利亚|finland|芬蘭|芬兰|slovakia|斯洛伐克|斯洛伐克|croatia|克羅埃西亞|克罗地亚|denmark|丹麥|丹麦|ireland|愛爾蘭|爱尔兰|lithuania|立陶宛|立陶宛|slovenia|斯洛文尼亞|斯洛文尼亚|latvia|拉脫維亞|拉脱维亚|estonia|愛沙尼亞|爱沙尼亚|cyprus|賽普勒斯|塞浦路斯|luxembourg|盧森堡|卢森堡|malta|馬耳他|马耳他).*)(?!.*(?:限速).*)" }
-  # 特殊節點
-  - &home_group { name: 🌟 HOME, type: select, include-all: true, filter: "HOME" }
-  - &peter_group { name: 🏡 Friend Home, type: select, include-all: true, filter: "🏡|🏠|Friend" }
 
   # ==============================
 #  規則

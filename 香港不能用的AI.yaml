@@ -65,8 +65,8 @@ payload:
   
   # Siri
   - DOMAIN,guzzoni.apple.com
-  - DOMAIN,apple-relay.apple.com,🧠 AI
-  - DOMAIN,apple-relay.cloudflare.com,🧠 AI
+  - DOMAIN,apple-relay.apple.com
+  - DOMAIN,apple-relay.cloudflare.com
 
     # OpenAI 核心服務域名
   - DOMAIN-SUFFIX,openai.com
@@ -149,15 +149,3 @@ payload:
   - IP-CIDR,190.93.240.0/20,no-resolve
   - IP-CIDR,197.234.240.0/22,no-resolve
   - IP-CIDR,198.41.128.0/17,no-resolve
-  
-  # 僅包含AI服務的關鍵字 (精確匹配)
-  - DOMAIN-KEYWORD,notebooklm
-  - DOMAIN-KEYWORD,meta-ai
-  - DOMAIN-KEYWORD,metaai
-  - DOMAIN-KEYWORD,llama-ai
-  - DOMAIN-KEYWORD,colab
-  - DOMAIN-KEYWORD,developerprofiles
-  - DOMAIN-KEYWORD,generativelanguage
-  - DOMAIN-KEYWORD,anthropic
-  - DOMAIN-KEYWORD,claude
-  - DOMAIN-KEYWORD,openai

@@ -43,6 +43,7 @@ payload:
   - DOMAIN-SUFFIX,googletagmanager.com
   - DOMAIN-SUFFIX,hubspotonwebflow.com
   - DOMAIN,d3e54v103j8qbb.cloudfront.net
+  - DOMAIN-SUFFIX,google-analytics
   
   # Gemini
   - DOMAIN,ai.google.dev

@@ -1,0 +1,158 @@
+payload:
+  # === Meta AI 核心服務 (僅AI相關) ===
+  - DOMAIN,ai.meta.com
+  - DOMAIN,meta.ai
+  - DOMAIN,llama.meta.com
+  - DOMAIN,ai.facebook.com
+  
+  # Meta AI API 和 CDN (僅AI服務相關)
+  - DOMAIN,ai-api.meta.com
+  - DOMAIN,llama-api.meta.com
+  - DOMAIN,meta-ai.com
+  - DOMAIN,metaai.com
+  - DOMAIN-SUFFIX,ai.meta.com
+  - DOMAIN-SUFFIX,meta.ai
+  - DOMAIN-SUFFIX,llama.meta.com
+  
+  # Meta AI 相關的專用子域名
+  - DOMAIN-SUFFIX,ai-cdn.meta.com
+  - DOMAIN-SUFFIX,ai-static.meta.com
+  - DOMAIN-SUFFIX,llama-cdn.meta.com
+  
+  # === Google Notebook LM 專用域名 ===
+  - DOMAIN,notebooklm.google.com
+  - DOMAIN,notebooklm.google
+  - DOMAIN-SUFFIX,notebooklm.google.com
+  - DOMAIN-SUFFIX,notebooklm.google
+  
+  # Notebook LM 可能的子域名
+  - DOMAIN,api-notebooklm.google.com
+  - DOMAIN,cdn-notebooklm.google.com
+  - DOMAIN,static-notebooklm.google.com
+  - DOMAIN-SUFFIX,notebooklm.googleusercontent.com
+  
+  # Notebook LM 專用API (如果存在)
+  - DOMAIN,notebooklm-api.googleapis.com
+  - DOMAIN,notebooklm.googleapis.com
+
+  - DOMAIN-SUFFIX,anthropic.com
+  - DOMAIN,cdn.usefathom.com
+  - DOMAIN-SUFFIX,claude.ai
+  - IP-CIDR,160.79.104.0/21
+  
+  # Gemini
+  - DOMAIN,ai.google.dev
+  - DOMAIN-SUFFIX,clients6.google.com
+  - DOMAIN,makersuite.google.com
+  - DOMAIN-SUFFIX,deepmind.com
+  - DOMAIN-SUFFIX,deepmind.google
+  - DOMAIN-SUFFIX,gemini.google.com
+  - DOMAIN-SUFFIX,generativeai.google
+  - DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com
+  - DOMAIN-SUFFIX,apis.google.com
+  - DOMAIN-SUFFIX,aistudio.google.com
+  - DOMAIN-SUFFIX,bard.google.com
+  - DOMAIN-SUFFIX,gemini.google.com
+  - DOMAIN-SUFFIX,ai.google.dev
+  - DOMAIN-SUFFIX,googleapis.com
+  - DOMAIN-SUFFIX,ai.google.dev
+  - DOMAIN-SUFFIX,makersuite.google.com
+  
+  # Siri
+  - DOMAIN,guzzoni.apple.com
+  - DOMAIN,apple-relay.apple.com,🧠 AI
+  - DOMAIN,apple-relay.cloudflare.com,🧠 AI
+
+    # OpenAI 核心服務域名
+  - DOMAIN-SUFFIX,openai.com
+  - DOMAIN-SUFFIX,chatgpt.com
+  - DOMAIN-SUFFIX,ai.com
+  - DOMAIN-SUFFIX,oaistatic.com
+  - DOMAIN-SUFFIX,oaiusercontent.com
+  
+  # OpenAI CDN 和靜態資源
+  - DOMAIN,browser-intake-datadoghq.com
+  - DOMAIN,chat.openai.com.cdn.cloudflare.net
+  - DOMAIN,openai-api.arkoselabs.com
+  - DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
+  - DOMAIN,openaicomproductionae4b.blob.core.windows.net
+  - DOMAIN,production-openaicom-storage.azureedge.net
+  - DOMAIN,static.cloudflareinsights.com
+  - DOMAIN-SUFFIX,openaiapi-site.azureedge.net
+  - DOMAIN-SUFFIX,openaicom.imgix.net
+  
+  # ChatGPT 語音和實時功能
+  - DOMAIN-SUFFIX,chatgpt.livekit.cloud
+  - DOMAIN-SUFFIX,host.livekit.cloud
+  - DOMAIN-SUFFIX,turn.livekit.cloud
+  
+  # 第三方服務整合
+  - DOMAIN-SUFFIX,algolia.net
+  - DOMAIN-SUFFIX,api.statsig.com
+  - DOMAIN-SUFFIX,api.revenuecat.com
+  - DOMAIN-SUFFIX,auth0.com
+  - DOMAIN-SUFFIX,client-api.arkoselabs.com
+  - DOMAIN-SUFFIX,events.statsigapi.net
+  - DOMAIN-SUFFIX,featuregates.org
+  - DOMAIN-SUFFIX,identrust.com
+  - DOMAIN-SUFFIX,intercom.io
+  - DOMAIN-SUFFIX,intercomcdn.com
+  - DOMAIN-SUFFIX,launchdarkly.com
+  - DOMAIN-SUFFIX,observeit.net
+  - DOMAIN-SUFFIX,segment.io
+  - DOMAIN-SUFFIX,sentry.io
+  - DOMAIN-SUFFIX,stripe.com
+  
+  # 重要域名
+  - DOMAIN-SUFFIX,openaiusercontent.com
+  - DOMAIN-SUFFIX,cdn.openai.com
+  - DOMAIN-SUFFIX,files.oaiusercontent.com
+  - DOMAIN-SUFFIX,platform.openai.com
+  - DOMAIN-SUFFIX,api.openai.com
+  - DOMAIN-SUFFIX,beta.openai.com
+  - DOMAIN-SUFFIX,labs.openai.com
+  - DOMAIN-SUFFIX,help.openai.com
+  - DOMAIN-SUFFIX,status.openai.com
+  
+  # 修正的IP地址（移除無效的私有IP）
+  # 原規則中的問題：
+  # - 10.30.23.133/32 是私有IP，應移除
+  # - 192.168.52.1/32 是私有IP，應移除
+  # - 最後一條規則缺少 'e'
+  
+  # 公網IP地址
+  - IP-CIDR,24.199.123.28/32,no-resolve
+  - IP-CIDR,64.23.132.171/32,no-resolve
+  - IP-CIDR,172.64.148.171/32,no-resolve
+  - IP-CIDR,47.129.140.148/32,no-resolve
+  - IP-CIDR,18.140.25.214/32,no-resolve
+  - IP-CIDR,104.18.32.47/32,no-resolve
+  - IP-CIDR,104.18.39.85/32,no-resolve
+  - IP-CIDR,199.232.47.6/32,no-resolve
+  
+  # OpenAI 官方爬蟲IP範圍
+  # 基於 GitHub 項目和官方文檔的IP段
+  - IP-CIDR,20.42.10.176/32,no-resolve
+  - IP-CIDR,172.203.190.128/32,no-resolve
+  - IP-CIDR,51.8.102.0/32,no-resolve
+  
+  # Cloudflare IP 範圍（OpenAI使用）
+  - IP-CIDR,104.16.0.0/13,no-resolve
+  - IP-CIDR,104.24.0.0/14,no-resolve
+  - IP-CIDR,172.64.0.0/13,no-resolve
+  - IP-CIDR,188.114.96.0/20,no-resolve
+  - IP-CIDR,190.93.240.0/20,no-resolve
+  - IP-CIDR,197.234.240.0/22,no-resolve
+  - IP-CIDR,198.41.128.0/17,no-resolve
+  
+  # 僅包含AI服務的關鍵字 (精確匹配)
+  - DOMAIN-KEYWORD,notebooklm
+  - DOMAIN-KEYWORD,meta-ai
+  - DOMAIN-KEYWORD,metaai
+  - DOMAIN-KEYWORD,llama-ai
+  - DOMAIN-KEYWORD,colab
+  - DOMAIN-KEYWORD,developerprofiles
+  - DOMAIN-KEYWORD,generativelanguage
+  - DOMAIN-KEYWORD,anthropic
+  - DOMAIN-KEYWORD,claude
+  - DOMAIN-KEYWORD,openai

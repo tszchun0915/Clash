@@ -35,15 +35,112 @@ payload:
   - DOMAIN,notebooklm-api.googleapis.com
   - DOMAIN,notebooklm.googleapis.com
 
-  # Claude
-  - DOMAIN,cdn.usefathom.com
-  - DOMAIN-SUFFIX,anthropic.com
-  - DOMAIN-SUFFIX,claude.ai
-  - IP-CIDR,160.79.104.0/21
-  - DOMAIN-SUFFIX,hubspotonwebflow.com
-  - DOMAIN,d3e54v103j8qbb.cloudfront.net
-  - DOMAIN-SUFFIX,edge.microsoft.com
-  - IP-CIDR,150.171.27.11/24,no-resolve
+  # === Anthropic 核心域名 ===
+  
+  # Claude 主要服務
+  - DOMAIN,claude.ai                    # Claude 網頁版主站
+  - DOMAIN-SUFFIX,claude.ai             # Claude 所有子域名
+  - DOMAIN-SUFFIX,anthropic.com         # Anthropic 公司官網
+  - DOMAIN-SUFFIX,anthropic.ai          # Anthropic AI 服務
+  
+  # API 服務端點
+  - DOMAIN,api.anthropic.com            # Claude API 主端點
+  - DOMAIN-SUFFIX,api.anthropic.com     # API 相關子域名
+  - DOMAIN,console.anthropic.com        # Anthropic 控制台
+  - DOMAIN-SUFFIX,console.anthropic.com # 控制台相關服務
+  
+  # 文檔和支援
+  - DOMAIN,docs.anthropic.com           # 官方文檔
+  - DOMAIN-SUFFIX,docs.anthropic.com    # 文檔相關服務
+  - DOMAIN,support.anthropic.com        # 客戶支援
+  - DOMAIN-SUFFIX,support.anthropic.com # 支援相關服務
+  
+  # === Claude 相關服務域名 ===
+  
+  # Claude Code (開發工具)
+  - DOMAIN,code.anthropic.com           # Claude Code 服務
+  - DOMAIN-SUFFIX,code.anthropic.com    # Code 相關功能
+  
+  # Claude Mobile 應用
+  - DOMAIN,mobile.anthropic.com         # 移動端服務
+  - DOMAIN-SUFFIX,mobile.anthropic.com  # 移動應用 API
+  
+  # Claude Desktop 應用
+  - DOMAIN,desktop.anthropic.com        # 桌面版服務
+  - DOMAIN-SUFFIX,desktop.anthropic.com # 桌面應用更新
+  
+  # 用戶認證和帳戶管理
+  - DOMAIN,auth.anthropic.com           # 用戶認證
+  - DOMAIN-SUFFIX,auth.anthropic.com    # 認證相關服務
+  - DOMAIN,accounts.anthropic.com       # 帳戶管理
+  - DOMAIN-SUFFIX,accounts.anthropic.com # 帳戶相關功能
+  
+  # === CDN 和靜態資源 ===
+  
+  # Anthropic CDN 服務
+  - DOMAIN-SUFFIX,anthropic-cdn.com     # 可能的 CDN 域名
+  - DOMAIN-SUFFIX,claude-cdn.com        # Claude 專用 CDN
+  - DOMAIN-SUFFIX,anthropic.net         # Anthropic 網絡服務
+  - DOMAIN-SUFFIX,claude.net            # Claude 網絡服務
+  
+  # 靜態資源和媒體
+  - DOMAIN,static.anthropic.com         # 靜態資源
+  - DOMAIN-SUFFIX,static.anthropic.com  # 靜態文件服務
+  - DOMAIN,assets.anthropic.com         # 資產文件
+  - DOMAIN-SUFFIX,assets.anthropic.com  # 媒體資源
+  - DOMAIN,cdn.anthropic.com            # CDN 服務
+  - DOMAIN-SUFFIX,cdn.anthropic.com     # CDN 相關服務
+  
+  # === 分析和追蹤服務 ===
+  
+  # 用戶分析
+  - DOMAIN,analytics.anthropic.com      # 分析服務
+  - DOMAIN-SUFFIX,analytics.anthropic.com # 分析相關功能
+  - DOMAIN,metrics.anthropic.com        # 指標收集
+  - DOMAIN-SUFFIX,metrics.anthropic.com # 性能指標
+  
+  # 錯誤報告和日誌
+  - DOMAIN,errors.anthropic.com         # 錯誤報告
+  - DOMAIN-SUFFIX,errors.anthropic.com  # 錯誤處理服務
+  - DOMAIN,logging.anthropic.com        # 日誌服務
+  - DOMAIN-SUFFIX,logging.anthropic.com # 日誌收集
+  
+  # === 第三方整合服務 ===
+  
+  # Slack 整合
+  - DOMAIN,slack.anthropic.com          # Slack 機器人服務
+  - DOMAIN-SUFFIX,slack.anthropic.com   # Slack 相關功能
+  
+  # 其他整合
+  - DOMAIN,integrations.anthropic.com   # 第三方整合
+  - DOMAIN-SUFFIX,integrations.anthropic.com # 整合服務
+  
+  # Webhook 和 API 回調
+  - DOMAIN,webhooks.anthropic.com       # Webhook 服務
+  - DOMAIN-SUFFIX,webhooks.anthropic.com # Webhook 端點
+  
+  # === 開發者和企業服務 ===
+  
+  # 開發者工具
+  - DOMAIN,developer.anthropic.com      # 開發者門戶
+  - DOMAIN-SUFFIX,developer.anthropic.com # 開發者工具
+  - DOMAIN,playground.anthropic.com     # API 遊樂場
+  - DOMAIN-SUFFIX,playground.anthropic.com # 測試環境
+  
+  # 企業服務
+  - DOMAIN,enterprise.anthropic.com     # 企業版服務
+  - DOMAIN-SUFFIX,enterprise.anthropic.com # 企業功能
+  - DOMAIN,business.anthropic.com       # 商業版服務
+  - DOMAIN-SUFFIX,business.anthropic.com # 商業功能
+  
+  # === 地區化服務 ===
+  
+  # 多語言支援
+  - DOMAIN,zh.anthropic.com             # 中文服務
+  - DOMAIN,ja.anthropic.com             # 日語服務
+  - DOMAIN,ko.anthropic.com             # 韓語服務
+  - DOMAIN,eu.anthropic.com             # 歐盟服務
+  - DOMAIN,asia.anthropic.com           # 亞洲服務
   
   # Gemini
   - DOMAIN,ai.google.dev

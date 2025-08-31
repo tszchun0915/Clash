@@ -181,7 +181,7 @@ proxy-groups:
   - &europe_group { name: 🇪🇺 Europe, <<: *load-balance, health-check: { url: 'http://telekom.com/generate_204' , 'http://captive.apple.com', 'http://www.google.com/generate_204', lazy: true, expected-status: [204, 204, 204]}, filter: "(?i)(?=.*(?:germany|德國|德国|france|法國|法国|italy|義大利|意大利|spain|西班牙|西班牙|poland|波蘭|波兰|romania|羅馬尼亞|罗马尼亚|netherlands|荷蘭|荷兰|belgium|比利時|比利时|czech|捷克|捷克|greece|希臘|希腊|portugal|葡萄牙|葡萄牙|sweden|瑞典|瑞典|hungary|匈牙利|匈牙利|austria|奧地利|奥地利|bulgaria|保加利亞|保加利亚|finland|芬蘭|芬兰|slovakia|斯洛伐克|斯洛伐克|croatia|克羅埃西亞|克罗地亚|denmark|丹麥|丹麦|ireland|愛爾蘭|爱尔兰|lithuania|立陶宛|立陶宛|slovenia|斯洛文尼亞|斯洛文尼亚|latvia|拉脫維亞|拉脱维亚|estonia|愛沙尼亞|爱沙尼亚|cyprus|賽普勒斯|塞浦路斯|luxembourg|盧森堡|卢森堡|malta|馬耳他|马耳他).*)(?!.*(?:限速).*)" }
   # 特殊節點
   - &home_group { name: 🌟 HOME, type: select, include-all: true, filter: "HOME" }
-  - &peter_group { name: 🏡 Friend Home, type: select, include-all: true, filter: "🏡|🏠|Friend" }
+  - &friend_group { name: 🏡 Friend Home, type: select, include-all: true, filter: "🏡|🏠|Friend" }
   
 # ==============================
 #  Rule-set 規則集

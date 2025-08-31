@@ -44,6 +44,7 @@ payload:
   - DOMAIN-SUFFIX,hubspotonwebflow.com
   - DOMAIN,d3e54v103j8qbb.cloudfront.net
   - DOMAIN-SUFFIX,google-analytics.com
+  - DOMAIN-SUFFIX,edge.microsoft.com
   
   # Gemini
   - DOMAIN,ai.google.dev

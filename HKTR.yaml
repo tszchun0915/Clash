@@ -1,5 +1,6 @@
 payload:
   # 港跑 (全部都屬於台灣[新台北]IP)
+  - IP-CIDR,198.18.0.89/32,no-resolve
   - IP-CIDR,210.242.202.0/24,no-resolve
   - DOMAIN-SUFFIX,talesrunner.com.hk
   - DOMAIN-SUFFIX,funtown.com.hk

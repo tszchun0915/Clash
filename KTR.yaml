@@ -1,7 +1,6 @@
 payload:
-  - DOMAIN-SUFFIX,*rhaon.co.kr
-  - DOMAIN-SUFFIX,trimage.rhaon.co.kr
-  - DOMAIN-SUFFIX,tr.hangame.com
+  - DOMAIN-WILDCARD,*rhaon.co.kr
+  - DOMAIN-WILDCARD,*hangame.com
   - DOMAIN-WILDCARD,*.onstove.*
   - DOMAIN-WILDCARD,*.naver.*
   - DOMAIN-WILDCARD,*.nexon.*

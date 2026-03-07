@@ -1,537 +1,501 @@
-# ==============================
-#  快捷指令
-# ==============================
-rule-set: &rule-set {type: http, behavior: classical, interval: 3600}
-NodeParam: &NodeParam {type: http, interval: 21600, health-check: {enable: true, interval: 300, timeout: 500, url: 'http://captive.apple.com/generate_204', expected-status: 204, lazy: true, proxy: DIRECT}} # 節點參數（保留原配置，優化：health-check URL 適合國內國際檢測 Apple 門戶）
-# load-balance: &load-balance {type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180}}
-# default: &default {type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳]}
-# Tester: &Tester {type: select, url: 'http://測試url網址', expected-status: 200, include-all: true, filter: "(?i:).*" , proxies: [DIRECT], hidden : false}}
-
-# ==============================
-#  主要端口設定（系統連接端口和安全認證）
-# ==============================
-port: 7890 # HTTP 代理端口
-socks-port: 7891 # SOCKS5 代理端口
-redir-port: 7892 # 重定向端口
-mixed-port: 7893 # 混合代理端口
-tproxy-port: 7895 # 透明代理端口
-# authentication: [admin:securepassword123] # 認證用戶名:密碼（建議替換為強密碼）
-allow-lan: true # 允許局域網連接
-mode: rule # 規則模式
-log-level: info # 日誌級別
-global-ua: clash-verge # 全局用戶代理
-etag-support: true # 支持 ETag
-unified-delay: true # 統一延遲計算
-tcp-concurrent: true # TCP 並發
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+ipv6: false
 udp: true
+tcp-concurrent: true
+unified-delay: true
+global-ua: clash.party
 profile:
-  store-selected: true # 儲存select選擇記錄
-  store-fake-ip: true # 持久化fake-ip
-
-# ==============================
-#  Web UI 訪問地址（外部控制器和密鑰）
-# ==============================
-external-controller: 0.0.0.0:9090 # 外部控制器地址
-secret: securesecret123 # UI 訪問密鑰（建議替換為強密鑰）
-global-client-fingerprint: chrome # 客戶端指紋偽裝為 Chrome
-
-# ==============================
-#  DNS 設定（域名解析分流和偽IP過濾）
-# ==============================
-dns:
-  enable: true # 啟用 DNS
-  cache-algorithm: arc # 緩存算法（arc 為適應性替換緩存，適合多地區使用）
-  prefer-h3: true # 優先 HTTP/3 協議（提升國際連接速度）
-  use-hosts: true # 使用 hosts 文件
-  use-system-hosts: true # 使用系統 hosts
-  respect-rules: true # 尊重規則中的 DNS 設置
-  listen: '0.0.0.0:1054' # 監聽地址（改為 1054 避免可能的端口衝突）
-  ipv6: false # 啟用 IPv6（國際網絡常用，國內可選）
-  enhanced-mode: fake-ip # 增強模式使用 fake-ip（防 DNS 污染，適合國內國際兼備）
-  fake-ip-range: '198.18.0.1/16' # fake-ip 範圍（標準範圍，無需變更）
-  fake-ip-filter-mode: blacklist # 過濾模式為黑名單
-  fake-ip-filter: ["*.機場官網1", "*.機場官網2", "*.機場官網3", "localhost.ptlogin2.qq.com", "geosite:cn", "daemon.warn", "stun.*.*.*", "stun.*.*", "time.windows.com", "*.ntp.org.cn", "pool.ntp.org", "*.baidu.com", "*.sogou.com", "*.msftcsi.com", "www.msftconnecttest.com","*.qq.com","*.weibo.com"] # 偽 IP 過濾列表 「危險域名」標記為「唔信賴」或「污染高風險」 優先用假 IP 或跳過呢啲域名嘅正常 DNS 解析
-  default-nameserver: ['223.5.5.5','223.6.6.6','119.29.29.29','180.184.1.1'] # 默認 DNS 伺服器
-  nameserver: ['https://doh.pub/dns-query','https://dns.alidns.com/dns-query','180.184.1.1'] # 主 nameserver（添加備用）
-  nameserver-policy: # 域名解析策略
-    "GEOIP:CN": ['https://dns.alidns.com/dns-query','https://doh.pub/dns-query'] # 國內IP用國內 DoH
-    "geosite:cn": ['https://dns.alidns.com/dns-query,https://doh.pub/dns-query'] # 國內域名用國內 DoH
-    "geosite:private,geolocation-!cn": ['https://dns.cloudflare.com/dns-query','https://dns.google/dns-query'] # 國際域名用國際 DoH
-    "GEOIP:private,geolocation-!cn": ['https://dns.cloudflare.com/dns-query','https://dns.google/dns-query'] # 國際IP用國際 DoH
-  fallback: ['tls://1.1.1.1/853,tls://8.8.8.8:853']
-  proxy-server-nameserver: ['https://dns.cloudflare.com/dns-query','https://dns.google/dns-query']  # proxy 偏國際，適合國外/非法
-  direct-nameserver: ['https://dns.alidns.com/dns-query','https://doh.pub/dns-query']  # direct 偏國內，適合合法網站
-  direct-nameserver-follow-policy: true # 跟隨策略
-
-# 後備過濾器
-fallback-filter:
-  geodata-mode: false # 非 geodata 模式
-  geoip: true # 啟用 geoip
-  geoip-code: CN # 中國 geoip 代碼
-  geosite: gfw # GFW 列表
-  ipcidr: ['240.0.0.0/4'] # IP CIDR 過濾
-  domain: ['+.facebook.com','+.twitter.com','+.youtube.com','+.xn--ngstr-lra8j.com','+.googleapis.com','+.gvt1.com','+.cn','baidu.com','-gfw'] # 域名過濾
-  auto-redirect-input-mark: 8227 # 自動重定向輸入標記
-  auto-redirect-output-mark: 8228 # 自動重定向輸出標記
-  recvmsgx: true # 接收 msgx
-  sendmsgx: false # 不發送 msgx
-
-# ==============================
-#  GEO 設定（地理數據更新和過濾）
-# ==============================
-geo-auto-update: true # 自動更新 GEO 數據
-geo-update-interval: 24 # 更新間隔（小時）
-geodata-loader: standard # GEO 數據載入器
+  store-selected: true
+  store-fake-ip: true
+external-controller: ""
+secret: ""
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - any:53
+  route-exclude-address: []
+  device: Mihomo
+  auto-redirect: false
+  mtu: 1500
+  strict-route: false
+dns-server:
+  enable: true
+  listen: 0.0.0.0:53
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - +.icloud.com
+    - +.apple.com
+    - +.icitymobile.mobi
+    - +.cmbchina.com
+    - msftconnecttest.com
+    - msftncsi.com
+    - +.msftconnecttest.com
+    - +.msftncsi.com
+    - +.srv.nintendo.net
+    - +.stun.playstation.net
+    - xbox.*.microsoft.com
+    - +.xboxlive.com
+    - +.battlenet.com.cn
+    - +.battlenet.com
+    - +.battle.net
+    - 18u8qxgf9h.execute-api.us-east-1.amazonaws.com
+    - php2.opentimeclock.com
+    - "*.local"
+    - localhost.ptlogin2.qq.com
+    - geosite:cn
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: true
+  cache-algorithm: arc
+  prefer-h3: true
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+    - https://cloudflare-dns.com/dns-query
+  fallback:
+    - tls://1.1.1.1
+    - tls://8.8.8.8
+    - https://dns.google/dns-query
+  nameserver-policy:
+    +.apple.com: 223.5.5.5
+    apple.com: 223.5.5.5
+    +.appsto.re: 223.5.5.5
+    +.aaplimg.com: 223.5.5.5
+    +.apple-dns.net: 223.5.5.5
+    +.apple.co: 223.5.5.5
+    +.applestore.com: 223.5.5.5
+    +.apple.com.cn: 223.5.5.5
+    +.cdn-apple.com: 223.5.5.5
+    +.apple-cloudkit.com: 223.5.5.5
+    +.crashlytics.com: 223.5.5.5
+    +.icloud.com: 223.5.5.5
+    +.icloud.com.cn: 223.5.5.5
+    +.icloud-content.com: 223.5.5.5
+    +.me.com: 223.5.5.5
+    +.mzstatic.com: 223.5.5.5
+    +.organicfruitapps.com: 223.5.5.5
+    +.apple.com.akadns.net: 223.5.5.5
+    +.icloud.com.akadns.net: 223.5.5.5
+    +.taobao.com: 223.5.5.5
+    +.tmall.com: 223.5.5.5
+    +.jd.com: 119.29.29.29
+    +.qq.com: 119.29.29.29
+    +.tencent.com: 119.29.29.29
+    +.weixin.com: 119.28.28.28
+    +.bilibili.com: 119.29.29.29
+    +.163.com: 119.29.29.29
+    +.126.com: 119.29.29.29
+    +.mi.com: 119.29.29.29
+    +.xiaomi.com: 119.29.29.29
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+geo-auto-update: true
+geo-update-interval: 24
+geodata-loader: standard
 geox-url:
-  geoip: 'https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat' # 輕量 GEOIP
-  geosite: 'https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat' # GEOSITE
-  mmdb: 'https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb' # 國家 MMDB
-  asn: 'https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb' # ASN MMDB
-
-# ==============================
-#  域名嗅探（流量嗅探和路由強制/跳過）
-# ==============================
+  geoip: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat
+  geosite: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+  mmdb: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb
+  asn: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb
 sniffer:
-  enable: true # 啟用嗅探
-  force-dns-mapping: true # 強制 DNS 映射
-  parse-pure-ip: true # 解析純 IP
-  override-destination: true # 覆蓋目的地
-sniffing: [tls, http, quic, socks5] # 嗅探協議
-sniff:
-  HTTP: {ports: [80,443,8080-8880]} # HTTP 端口
-  TLS: {ports: [443,8443]} # TLS 端口
-  QUIC: {ports: [443,8443]} # QUIC 端口
-  skip-domain: ["192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12", "localhost", "*.local", "*.lan", "*.home"] # 跳過域名（使用引號修正）
-  force-domain: ["youtube.com", "stackoverflow.com", "ytimg.com", "+.apple.com", "10.0.0.0/8", "100.64.0.0/10", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", "192.0.0.0/24", "192.0.2.0/24", "192.88.99.0/24", "192.168.0.0/16", "198.51.100.0/24", "203.0.113.0/24", "224.0.0.0/4", "255.255.255.255/32", "239.255.255.250/32", "198.18.0.0/15"] # 強制域名（統一使用引號）
-  port-whitelist: [53, 80, 443, 993, 8080-8880] # 端口白名單
-  skip-src-address: ["192.168.0.1/32"] # 跳過來源地址
-  skip-dst-address: ["192.168.0.1/32"] # 跳過目的地地址
-
-# ==============================
-#  hosts（自定義域名解析映射）
-# ==============================
-hosts:
-  'localhost': '127.0.0.1' # 本地主機
-
-# ==============================
-#  機場節點訂閱鏈接
-# ==============================
-proxy-providers:
-  機場Name1: {url: '機場url訂閲1', <<: *NodeParam, override: {additional-prefix: "機場Name1 |", additional-suffix: "| 機場Name1"}}
-  機場Name2: {url: '機場url訂閲2', <<: *NodeParam, override: {additional-prefix: "機場Name2 |", additional-suffix: "| 機場Name2"}}
-  機場Name3: {url: '機場url訂閲3', <<: *NodeParam, override: {additional-prefix: "機場Name3 |", additional-suffix: "| 機場Name3"}}
-  機場Name4: {url: '機場url訂閲4', <<: *NodeParam, override: {additional-prefix: "機場Name4 |", additional-suffix: "| 機場Name4"}}
-  機場Name5: {url: '機場url訂閲5', <<: *NodeParam, override: {additional-prefix: "機場Name5 |", additional-suffix: "| 機場Name5"}}
-  機場Name6: {url: '機場url訂閲6', <<: *NodeParam, override: {additional-prefix: "機場Name6 |", additional-suffix: "| 機場Name6"}}
-  機場Name7: {url: '機場url訂閲7', <<: *NodeParam, override: {additional-prefix: "機場Name7 |", additional-suffix: "| 機場Name7"}}
-  機場Name8: {url: '機場url訂閲8', <<: *NodeParam, override: {additional-prefix: "機場Name8 |", additional-suffix: "| 機場Name8"}}
-  機場Name9: {url: '機場url訂閲9', <<: *NodeParam, override: {additional-prefix: "機場Name9 |", additional-suffix: "| 機場Name9"}}
-
-# ==============================
-#  私人節點
-# ==============================    
-# proxies: 
-
-# ==============================
-#  策略組
-# ==============================
+  enable: false
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: false
+  sniff:
+    HTTP:
+      ports:
+        - 80
+        - 443
+      override-destination: false
+    TLS:
+      ports:
+        - 443
+    QUIC:
+      ports:
+        - 443
+        - 8443
+  skip-domain:
+    - +.push.apple.com
+  force-domain: []
+  skip-dst-address:
+    - 91.105.192.0/23
+    - 91.108.4.0/22
+    - 91.108.8.0/21
+    - 91.108.16.0/21
+    - 91.108.56.0/22
+    - 95.161.64.0/20
+    - 149.154.160.0/20
+    - 185.76.151.0/24
+    - 2001:67c:4e8::/48
+    - 2001:b28:f23c::/47
+    - 2001:b28:f23f::/48
+    - 2a0a:f280:203::/48
+  skip-src-address: []
 proxy-groups:
-  # 節點測試
-  - &temporary_group { name: Tester, type: select, url: 'http://cp.cloudflare.com', expected-status: 200, include-all: true, filter: "(?i:).*" , proxies: [DIRECT], hidden : false}
-  # 全局策略
-  - { name: 🌐 Global, type: select, proxies: [DIRECT, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  
-  # 地區策略組
-  - { name: 🇭🇰 Default 🇲🇴, type: select, proxies: [DIRECT, 🇭🇰 HongKong, 🇲🇴 Macau, 🏡 Friend Home, 🌟 HOME] }
-  - { name: 🇹🇼 Default 🇹🇼, type: select, proxies: [DIRECT, 🇹🇼 Taiwan] }
-  - { name: 🇨🇳 Default 🇨🇳, type: select, proxies: [DIRECT, 🇨🇳 China] }
-
-  # 流媒體與應用策略組
-  - { name: 🎦 Netflix, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 🎞️ Disney+, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 📺 動畫瘋, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 🎬 HBO, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 🎥 Hulu, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 🎞️ PrimeVideo, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 📡 IPTV, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 📽️ BiliBili, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 📺 iQiYi, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 📱 Tiktok, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 🎞️ Vimeo, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 🧠 AI, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 🎦 大陸影片Apps, type: select, proxies: [DIRECT, Tester, 🏡 Friend Home, 🇦🇷 Argentina, 🇪🇺 Europe, 🇹🇷 Turkey, 🇷🇺 Russian, 🇲🇾 Malaysia, 🇹🇭 Thailand, 🇺🇸 USA, 🇸🇬 Singapore, 🇰🇷 Korea, 🇯🇵 Japan, 🌟 HOME, 🇭🇰 Default 🇲🇴, 🇹🇼 Default 🇹🇼, 🇨🇳 Default 🇨🇳] }
-  - { name: 📺 Emby, type: select, include-all: true, filter: "Emby" }
-
-  # 國家節點
-  - &china_group { name: 🇨🇳 China, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: {url: "http://www.baidu.com/generate_204"}, filter: "(?i)(?=.*日志.*)^(?!.*(?:限速).*$)" }}
-  - &hongkong_group { name: 🇭🇰 HongKong, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: {url: "http://www.google.com.hk/generate_204"}, filter: "(?i)(?=.*(?:🇭🇰|香|港|香港|香江|深港|沪港|京港|香岛|湾仔|港仔|九龙|铜锣湾|旺角|Hong|HongKong).*)^(?!.*(?:台湾|日本|tashkent|新加坡|美国|韩国|狮城|南朝鲜|US|SG|JP|KR|TW|台灣|美國|韓國|獅城|限速).*)" }}
-  - &macau_group { name: 🇲🇴 Macau, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: ['http://captive.apple.com', 'http://www.google.com/generate_204', 'http://www.ctm.net'], lazy: true, expected-status: [204, 204, 200]}, filter: "(?i)(?=.*(?:MAU|Macau|Macao|澳門|澳门).*)^(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|韓國|美國|獅城|限速).*)" }}
-  - &taiwan_group { name: 🇹🇼 Taiwan, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.tw/generate_204"}, filter: "(?i)(?=.*(?:🇹🇼|台|台湾|台北|新北|桃园|台中|台南|高雄|基隆|新竹|嘉义|苗栗|彰化|南投|云林|屏东|台东|花莲|宜兰|澎湖|金门|连江|TW|Taiwan|Tai wan).*)^(?!.*(?:港|日|韩|新|美|限速).*)" }}
-  - &japan_group { name: 🇯🇵 Japan, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: {url: "http://www.google.co.jp/generate_204"}, filter: "(?i)(?=.*(?:🇯🇵|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan|名古屋|福冈|仙台|京都|京日|苏日|上日|Tokyo|tokyo|广日|深日|港日).*)^(?!.*(?:日志|尼日利亚|香港|台湾|新加坡|美国|韩国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|美國|韓國|獅城|尼日利|限速).*)" }}
-  - &korea_group { name: 🇰🇷 Korea, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.co.kr/generate_204"}, filter: "(?i)(?=.*(?:🇰🇷|韩|韩国|南韩|南朝鲜|高丽|大韩民国|首尔|世宗|济州市|水原|釜山|大邱|仁川|光州|大田|蔚山|Korea|Korean|South Korea|韓|KOR|春川).*)^(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝|US|UK|SG|HK|TW|台灣|美國|獅城|UKRAINE|限速).*)" }}
-  - &usa_group { name: 🇺🇸 USA, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com/generate_204"}, filter: "(?i)(?=.*(?:🇺🇸|google|美国|纽约|沪美|美利坚合众国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|华盛顿|内华达|蒙大纳|怀俄明州|菲尼克斯|阿尔伯克基|丹佛|United States|States|American|America|america).*)^(?!.*(?:香港|台湾|新加坡|狮城|南朝鲜|SG|KR|HK|TW|台灣|韓國|獅城|限速).*)" }}
-  - &sg_group { name: 🇸🇬 Singapore, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.sg/generate_204"}, filter: "(?i)(?=.*(?:🇸🇬|新|狮|獅|坡|新加坡|星|星加坡|星洲|狮城|SG|Singapore|Sing|sing|沪新|京新|深新|杭新|广新).*)^(?!.*(?:最新网址|香港|台湾|日本|美国|韩国|南朝鲜|US|JP|KR|HK|TW|台灣|美國|韓國|限速).*)" }}
-  - &malaysia_group { name: 🇲🇾 Malaysia, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.my/generate_204"}, filter: "(?i)(?=.*(?:馬來西亞|🇲🇾|Malaysia|马来西亚).*)^(?!.*(?:限速).*)" }}
-  - &thailand_group { name: 🇹🇭 Thailand, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.co.th/generate_204"}, filter: "(?i)(?=.*(?:🇹🇭|泰|泰国|Bangkok|Thailand).*)^(?!.*(?:限速).*)" }}
-  - &argentina_group { name: 🇦🇷 Argentina, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.ar/generate_204"}, filter: "(?i)(?=.*(?:🇦🇷|阿根廷|Argentina).*)^(?!.*(?:限速).*)" }}
-  - &turkey_group { name: 🇹🇷 Turkey, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.com.tr/generate_204"}, filter: "(?i)(?=.*(?:🇹🇷|土耳其|Turkey).*)^(?!.*(?:限速).*)" }}
-  - &russian_group { name: 🇷🇺 Russian, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: "http://www.google.ru/generate_204"}, filter: "(?i)(?=.*(?:🇷🇺|俄罗斯|莫斯科|圣彼得堡|喀山|哈尔科夫|乌法|新西伯利亚|下诺夫哥罗德|沃罗涅什).*)^(?!.*(?:限速).*)" }}
-  - &europe_group { name: 🇪🇺 Europe, type: load-balance, include-all: true, strategy: consistent-hashing, health-check: {enable: true, tolerance: 30, interval: 180, health-check: { url: 'http://telekom.com/generate_204' , 'http://captive.apple.com', 'http://www.google.com/generate_204', lazy: true, expected-status: [204, 204, 204]}, filter: "(?i)(?=.*(?:germany|德國|德国|france|法國|法国|italy|義大利|意大利|spain|西班牙|西班牙|poland|波蘭|波兰|romania|羅馬尼亞|罗马尼亚|netherlands|荷蘭|荷兰|belgium|比利時|比利时|czech|捷克|捷克|greece|希臘|希腊|portugal|葡萄牙|葡萄牙|sweden|瑞典|瑞典|hungary|匈牙利|匈牙利|austria|奧地利|奥地利|bulgaria|保加利亞|保加利亚|finland|芬蘭|芬兰|slovakia|斯洛伐克|斯洛伐克|croatia|克羅埃西亞|克罗地亚|denmark|丹麥|丹麦|ireland|愛爾蘭|爱尔兰|lithuania|立陶宛|立陶宛|slovenia|斯洛文尼亞|斯洛文尼亚|latvia|拉脫維亞|拉脱维亚|estonia|愛沙尼亞|爱沙尼亚|cyprus|賽普勒斯|塞浦路斯|luxembourg|盧森堡|卢森堡|malta|馬耳他|马耳他).*)(?!.*(?:限速).*)" }}
-  # 特殊節點
-  - &home_group { name: 🌟 HOME, type: select, include-all: true, filter: "HOME" }
-  - &peter_group { name: 🏡 Friend Home, type: select, include-all: true, filter: "🏡|🏠|Friend" }
-  
-# ==============================
-#  規則
-# ==============================
-# PASS(繞過)，会使匹配規則時跳過此規則
-# 常用網站建議 DOMAIN-SUFFIX,example.hk,🚀 Default
-rules:
- - DOMAIN-SUFFIX,18u8qxgf9h.execute-api.us-east-1.amazonaws.com,🇭🇰 Default 🇲🇴
- - DOMAIN-SUFFIX,php2.opentimeclock.com,🇭🇰 Default 🇲🇴
- - RULE-SET,MetaAI-NotebookLM,🧠 AI
- - RULE-SET,Gemini,🧠 AI
- - RULE-SET,Gemini-1,🧠 AI
- - RULE-SET,OpenAI,🧠 AI
- - RULE-SET,Claude,🧠 AI
- - IP-CIDR,160.79.104.0/21,🧠 AI
- - RULE-SET,eBay,🌐 Global
- - RULE-SET,HKTR,🌐 Global
- - RULE-SET,USA,🇺🇸 USA
- - RULE-SET,Emby,📺 Emby
- - DOMAIN-SUFFIX,grok.com,🌐 Global
- - DOMAIN-SUFFIX,x.ai,🌐 Global
- - DOMAIN-SUFFIX,felo.ai,🌐 Global
- - DOMAIN-SUFFIX,perplexity.ai,🌐 Global
- - DOMAIN-SUFFIX,futunn.com,🌐 Global
- - DOMAIN-SUFFIX,futuhk.com,🌐 Global
- - DOMAIN-SUFFIX,pystyle.info,🌐 Global
- - RULE-SET,AniGamer,📺 動畫瘋
- - DOMAIN-SUFFIX,gamer.com.tw,🌐 Global
- - RULE-SET,Bank-HK,🇭🇰 Default 🇲🇴
- - RULE-SET,Majsoul,🌐 Global
- - RULE-SET,HoYoverse,🌐 Global
- - RULE-SET,KTR-Web,🇰🇷 Korea
- - RULE-SET,Telegram,🇸🇬 Singapore
- - RULE-SET,Telegram-ipcidr,🇸🇬 Singapore
- - RULE-SET,Hkgolden,🇭🇰 Default 🇲🇴
- - DOMAIN-KEYWORD,hkjc,🇭🇰 Default 🇲🇴
- - RULE-SET,Line,🌐 Global
- - RULE-SET,Facebook,🌐 Global
- - RULE-SET,Instagram,🌐 Global
- - RULE-SET,Threads,🌐 Global
- - RULE-SET,Discord,🌐 Global
- - RULE-SET,Whatsapp,🌐 Global
- - RULE-SET,LinkedIn,🌐 Global
- - RULE-SET,Anime,🌐 Global
- - RULE-SET,Youtube,🌐 Global
- - RULE-SET,Youtube-Music,🌐 Global
- - RULE-SET,AppleMusic,🌐 Global
- - RULE-SET,Spotify,🌐 Global
- - RULE-SET,JOOX,🇭🇰 Default 🇲🇴
- - RULE-SET,KKBOX,🌐 Global
- - RULE-SET,MOOV,🇭🇰 Default 🇲🇴
- - RULE-SET,Twitch,🌐 Global
- - RULE-SET,Google,🌐 Global
- - DOMAIN-SUFFIX,vtuber.hk,🌐 Global
- - RULE-SET,GoogleEarth,🌐 Global
- - RULE-SET,GoogleDrive,🌐 Global
- - RULE-SET,Microsoft,🌐 Global
- - RULE-SET,OneDrive,🌐 Global
- - RULE-SET,Netflix,🎦 Netflix
- - RULE-SET,Disney,🎞️ Disney+
- - RULE-SET,PrimeViedo,🎞️ PrimeVideo
- - RULE-SET,AmazonPrimeVideo,🎞️ PrimeVideo
- - RULE-SET,TVB,🇭🇰 Default 🇲🇴
- - RULE-SET,MyTVSUPER,🇭🇰 Default 🇲🇴
- - RULE-SET,ViuTV,🇭🇰 Default 🇲🇴
- - RULE-SET,HKOpenTV,🇭🇰 Default 🇲🇴
- - RULE-SET,Hulu,🎥 Hulu
- - RULE-SET,HuluJP,🎥 Hulu
- - RULE-SET,HuluUSA,🎥 Hulu
- - RULE-SET,HamiVideo,🇹🇼 Default 🇹🇼
- - RULE-SET,Vimeo,🎞️ Vimeo
- - RULE-SET,HBO,🎬 HBO
- - RULE-SET,LineTV,🇹🇼 Default 🇹🇼
- - RULE-SET,AppleTV,🌐 Global
- - RULE-SET,Paypal,🌐 Global
- - RULE-SET,Adobe,🌐 Global
- - RULE-SET,Github,🌐 Global
- - RULE-SET,MEGA,🌐 Global
- - RULE-SET,IPTV-other,📡 IPTV
- - RULE-SET,Pixiv,🌐 Global
- - RULE-SET,AppleDaily,🌐 Global
- - RULE-SET,QuickConnect,🌐 Global
- - RULE-SET,Amazon,🌐 Global
- - RULE-SET,Smartone,🇭🇰 Default 🇲🇴
- - RULE-SET,Reddit,🌐 Global
- - RULE-SET,Razer,🌐 Global
- - RULE-SET,Siri,🧠 AI
- - DOMAIN,apple-relay.apple.com,🧠 AI
- - DOMAIN,apple-relay.cloudflare.com,🧠 AI
- - RULE-SET,Apple,🌐 Global
- - RULE-SET,AppleMedia,🌐 Global
- - RULE-SET,iCloud,🌐 Global
- - RULE-SET,iCloudPrivateRelay,🌐 Global
- - RULE-SET,AppleProxy,🌐 Global
- - RULE-SET,AppleMail,🌐 Global
- - RULE-SET,Find,🌐 Global
- - RULE-SET,AppleID,🌐 Global
- - RULE-SET,AppleHardWare,🌐 Global
- - RULE-SET,TestFlight,🌐 Global
- - RULE-SET,AppStore,🌐 Global
- - RULE-SET,IMDB,🌐 Global
- - RULE-SET,Mcdonalds,🌐 Global
- - RULE-SET,Tiktok,📱 Tiktok
- - IP-CIDR,39.107.142.158/24,📽️ BiliBili,no-resolve
- - RULE-SET,Bilibili,📽️ BiliBili
- - RULE-SET,BilibiliNTL,📽️ BiliBili
- - RULE-SET,iQiYi,📺 iQiYi
- - RULE-SET,iQiYiIntl,📺 iQiYi
- - RULE-SET,MeiTuan,DIRECT
- - RULE-SET,Pinduoduo,DIRECT
- - RULE-SET,JingDong,DIRECT
- - RULE-SET,Zhihu,DIRECT
- - RULE-SET,Baidu,DIRECT
- - RULE-SET,Download,DIRECT
- - RULE-SET,Lan,DIRECT
- - RULE-SET,Developer,DIRECT
- - RULE-SET,AliPay,DIRECT
- - RULE-SET,WeChat,DIRECT
- - RULE-SET,GaoDe,DIRECT
- - RULE-SET,DiDi,DIRECT
- - RULE-SET,ChinaMedia,🎦 大陸影片Apps
- - RULE-SET,TencentVideo,🎦 大陸影片Apps
- - RULE-SET,DouBan,🎦 大陸影片Apps
- - RULE-SET,KuaiShou,🎦 大陸影片Apps
- - RULE-SET,Douyin,🎦 大陸影片Apps
- - RULE-SET,NetEaseMusic,🇨🇳 Default 🇨🇳
- - RULE-SET,KugouKuwo,🇨🇳 Default 🇨🇳
- - RULE-SET,WanMeiShiJie,🇨🇳 Default 🇨🇳
- - RULE-SET,Sina,🇨🇳 Default 🇨🇳
- - RULE-SET,Weibo,🇨🇳 Default 🇨🇳
- - RULE-SET,Alibaba,🇨🇳 Default 🇨🇳
- - RULE-SET,XiaoHongShu,DIRECT
- - RULE-SET,Adrules,REJECT
- - RULE-SET,ZhihuAds,REJECT
- - RULE-SET,Hijacking,REJECT
- - RULE-SET,Privacy,REJECT
- - RULE-SET,AdGuardSDNSFilter,REJECT
- - RULE-SET,HttpDNSblock,REJECT
- - RULE-SET,Adrules-1,REJECT
- - GEOSITE,CN,🇨🇳 Default 🇨🇳
- - GEOIP,CN,🇨🇳 Default 🇨🇳,no-resolve
- - RULE-SET,Rule,DIRECT
- - MATCH,🌐 Global
-
-# ==============================
-#  Rule-set 規則集
-# ==============================
+  - name: 🚀 Default
+    type: select
+    proxies:
+      - ❇️ LOCAL
+      - PROXY
+      - 🇨🇳 China
+      - 🇭🇰 HongKong
+      - 🇹🇼 Taiwan
+      - 🇺🇸 USA
+      - 🇰🇷 Korea
+      - 🇯🇵 Japan
+      - 🇸🇬 Singapore
+      - 🇲🇾 Malaysia
+      - 🇹🇭 Thailand
+      - 🇦🇷 Argentina
+      - 🇹🇷 Turkey
+      - 🇷🇺 Russian
+  - name: 🔒 Safe
+    type: select
+    proxies:
+      - 🚀 Default
+      - PROXY
+      - ❇️ LOCAL
+  - name: 🧠 AI
+    type: select
+    proxies:
+      - 🚀 Default
+      - 🇺🇸 USA
+      - PROXY
+      - ❇️ LOCAL
+  - name: 🎥 Netflix
+    type: select
+    proxies:
+      - 🚀 Default
+      - 🇺🇸 USA
+      - PROXY
+      - ❇️ LOCAL
+  - name: 🎬 Disney+
+    type: select
+    proxies:
+      - 🚀 Default
+      - 🇺🇸 USA
+      - PROXY
+      - ❇️ LOCAL
+  - name: 🫂 dcard
+    type: select
+    proxies:
+      - 🚀 Default
+      - 🇹🇼 Taiwan
+      - PROXY
+      - ❇️ LOCAL
+  - name: 🍎 Apple服務
+    type: select
+    proxies:
+      - ❇️ LOCAL
+      - 🚀 Default
+      - 🇭🇰 HongKong
+      - PROXY
+  - name: PROXY
+    type: select
+    include-all: true
+  - name: ❇️ LOCAL
+    type: select
+    proxies:
+      - DIRECT
+  - name: 🇭🇰 HongKong
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇭🇰|香|港|香港|香江|深港|沪港|京港|香岛|湾仔|港仔|九龙|铜锣湾|旺角|HK|Hong|HongKong)).*(?!.*(?:台湾|日本|新加坡|美国|韩国|狮城|南朝鲜|US|SG|JP|KR|TW|台灣|美國|韓國|獅城))
+  - name: 🇹🇼 Taiwan
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇹🇼|台|台湾|台北|新北|桃园|台中|台南|高雄|基隆|新竹|嘉义|苗栗|彰化|南投|云林|屏东|台东|花莲|宜兰|澎湖|金门|连江|TW|Taiwan)).*(?!.*(?:港|日|韩|新|美))
+  - name: 🇺🇸 USA
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇺🇸|美|美国|纽约|沪美|美利坚合众国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|华盛顿|内华达|蒙大纳|怀俄明州|菲尼克斯|阿尔伯克基|丹佛|US|United
+      States|States|American|America)).*(?!.*(?:香港|台湾|新加坡|狮城|南朝鲜|SG|KR|HK|TW|台灣|韓國|獅城))
+  - name: 🇰🇷 Korea
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇰🇷|韩|韩国|南韩|南朝鲜|高丽|大韩民国|首尔|世宗|济州市|水原|釜山|大邱|仁川|光州|大田|蔚山|KR|Korea|Korean|South
+      Korea)).*(?!.*(?:香港|台湾|新加坡|美国|狮城|南朝|US|UK|SG|HK|TW|台灣|美國|獅城|UKRAINE))
+  - name: 🇯🇵 Japan
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇯🇵|日|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan|名古屋|福冈|仙台|京都|Tokyo|tokyo)).*(?!.*(?:香港|台湾|新加坡|美国|韩国|狮城|南朝鲜|US|SG|KR|HK|TW|台灣|美國|韓國|獅城))
+  - name: 🇸🇬 Singapore
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇸🇬|新|狮|獅|坡|新加坡|星|星加坡|星洲|狮城|SG|Singapore)).*(?!.*(?:香港|台湾|日本|美国|韩国|南朝鲜|US|JP|KR|HK|TW|台灣|美國|韓國))
+  - name: 🇲🇾 Malaysia
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇲🇾|馬來西亞|Malaysia|马来西亚))
+  - name: 🇹🇭 Thailand
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇹🇭|泰國|Thailand|Thai))
+  - name: 🇦🇷 Argentina
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇦🇷|阿根廷|Argentina))
+  - name: 🇹🇷 Turkey
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇹🇷|土耳其|Turkey))
+  - name: 🇷🇺 Russian
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇷🇺|俄罗斯|Russia|RU|莫斯科|圣彼得堡))
+  - name: 🇨🇳 China
+    type: url-test
+    include-all: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    filter: (?i)(?=.*(?:🇨🇳|中國|China|CN))
 rule-providers:
-  # Game
-  HKTR: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/HKTR.yaml, <<: *rule-set}
-  Majsoul: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Majsoul/Majsoul.yaml, <<: *rule-set}
-  HoYoverse: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/HoYoverse/HoYoverse.yaml, <<: *rule-set}
-
-  # Bank
-  Bank-HK: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Bank(HK).yaml, <<: *rule-set}
-
-  # USA 
-  USA: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/USA.yaml, <<: *rule-set}
-  # 韓跑官網
-  KTR-Web: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/KTR-Web.yaml, <<: *rule-set}
-
-  # 香港無法用的AI
-  Gemini: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml, <<: *rule-set}
-  Gemini-1: {url: https://raw.githubusercontent.com/v2fly/domain-list-community/ba6205a354ce96a0700c9ebbaf2554cd9be5a020/data/google-deepmind, <<: *rule-set}
-  OpenAI: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/ChatGPT.yaml, <<: *rule-set}
-  Claude: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml, <<: *rule-set}
-  MetaAI-NotebookLM:  {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/MetaAI-NotebookLM.yaml, <<: *rule-set}
-
-  # 通訊軟件
-  Line: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Line/Line.yaml, <<: *rule-set}
-  Facebook: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Facebook/Facebook.yaml, <<: *rule-set}
-  Instagram: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Instagram/Instagram.yaml, <<: *rule-set}
-  Threads: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Threads/Threads.yaml, <<: *rule-set}
-  Discord: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Discord.yaml, <<: *rule-set}
-  Whatsapp: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Whatsapp/Whatsapp.yaml, <<: *rule-set}
-  LinkedIn: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/LinkedIn/LinkedIn.yaml, <<: *rule-set}
-  Hkgolden: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hkgolden/Hkgolden.yaml, <<: *rule-set}
-
-  # Google 微軟
-  Google: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml, <<: *rule-set}
-  GoogleEarth: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleEarth/GoogleEarth.yaml, <<: *rule-set}
-  GoogleDrive: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleDrive/GoogleDrive.yaml, <<: *rule-set}
-  Microsoft: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml, <<: *rule-set}
-  OneDrive: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OneDrive/OneDrive.yaml, <<: *rule-set}
-    
-  # Anime
-  Anime: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Anime/Anime.yaml, <<: *rule-set}
-
-  # Youtube
-  Youtube: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml, <<: *rule-set}
-  Youtube-Music: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTubeMusic/YouTubeMusic.yaml, <<: *rule-set}
-
-  # Music
-  AppleMusic: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleMusic/AppleMusic.yaml, <<: *rule-set}
-  Spotify: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml, <<: *rule-set}
-  JOOX: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/JOOX/JOOX.yaml, <<: *rule-set}
-  KKBOX: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/KKBOX/KKBOX.yaml, <<: *rule-set}
-  MOOV: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/MOOV/MOOV.yaml, <<: *rule-set}
-
-  # Twitch 
-  Twitch: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitch/Twitch.yaml, <<: *rule-set}
-
-  # Netflix
-  Netflix: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml, <<: *rule-set}
-
-  # Disney
-  Disney: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Disney/Disney.yaml, <<: *rule-set}
-
-  #PrimeViedo
-  PrimeViedo: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PrimeVideo/PrimeVideo.yaml, <<: *rule-set}
-  AmazonPrimeVideo: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AmazonPrimeVideo/AmazonPrimeVideo.yaml, <<: *rule-set}
-
-  # HKTV
-  TVB: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TVB/TVB.yaml, <<: *rule-set}
-  MyTVSUPER: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/myTVSUPER/myTVSUPER.yaml, <<: *rule-set}
-  ViuTV: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ViuTV/ViuTV.yaml, <<: *rule-set}
-  HKOpenTV: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/HKOpenTV/HKOpenTV.yaml, <<: *rule-set}
-
-  # AniGamer
-  AniGamer: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AniGamer.yaml, <<: *rule-set}
-  #Hulu
-  Hulu: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hulu/Hulu.yaml, <<: *rule-set}
-  HuluJP: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/HuluJP/HuluJP.yaml, <<: *rule-set}
-  HuluUSA: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/HuluUSA/HuluUSA.yaml, <<: *rule-set}
-
-  # HamiVideo
-  HamiVideo: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/HamiVideo/HamiVideo.yaml, <<: *rule-set}
-
-  # Vimeo
-  Vimeo: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Vimeo/Vimeo.yaml, <<: *rule-set}
-
-  # HBO
-  HBO: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/HBO/HBO.yaml, <<: *rule-set}
-
-  # Line TV
-  LineTV: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/LineTV/LineTV.yaml, <<: *rule-set}
-
-  #AppleTV
-  AppleTV: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleTV/AppleTV.yaml, <<: *rule-set}
-
-  # Telegram
-  Telegram: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml, <<: *rule-set}
-  Telegram-ipcidr: {type: http, behavior: ipcidr, url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt", interval: 86400}
-
-  # Paypal
-  Paypal: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PayPal/PayPal.yaml, <<: *rule-set}
-
-  # Adobe 
-  Adobe: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Adobe/Adobe.yaml, <<: *rule-set}
-
-  # GitHub
-  Github: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml, <<: *rule-set}
-  
-  # MEGA
-  MEGA: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/MEGA/MEGA.yaml, <<: *rule-set}
-  
-  # Emby
-  Emby: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Emby.yaml, <<: *rule-set}
-
-  # Pixiv
-  Pixiv: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Pixiv/Pixiv.yaml, <<: *rule-set}
-
-  # 蘋果日報
-  AppleDaily: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleDaily/AppleDaily.yaml, <<: *rule-set}
-
-  # QuickConnect
-  QuickConnect: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/QuickConnect/QuickConnect.yaml, <<: *rule-set}
-
-  # Amazon
-  Amazon: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Amazon/Amazon.yaml, <<: *rule-set}
-
-  # Smartone
-  Smartone: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SmarTone/SmarTone.yaml, <<: *rule-set}
-  
-  # Reddit 
-  Reddit: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Reddit/Reddit.yaml, <<: *rule-set}
-
-  # Razer
-  Razer: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Razer/Razer.yaml, <<: *rule-set}
-
-  # eBay
-  eBay: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/eBay/eBay.yaml, <<: *rule-set}
-
-  # Apple 服務
-  Apple: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml, <<: *rule-set}
-  AppStore: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppStore/AppStore.yaml, <<: *rule-set}
-  AppleMedia: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleMedia/AppleMedia.yaml, <<: *rule-set}
-  iCloud: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/iCloud/iCloud.yaml, <<: *rule-set}
-  iCloudPrivateRelay: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/iCloudPrivateRelay/iCloudPrivateRelay.yaml, <<: *rule-set}
-  AppleProxy: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleProxy/AppleProxy.yaml, <<: *rule-set}
-  Siri: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Siri/Siri.yaml, <<: *rule-set}
-  AppleMail: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleMail/AppleMail.yaml, <<: *rule-set}
-  Find: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/FindMy/FindMy.yaml, <<: *rule-set}
-  AppleID: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleID/AppleID.yaml, <<: *rule-set}
-  AppleHardWare: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleHardware/AppleHardware.yaml, <<: *rule-set}
-  TestFlight: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TestFlight/TestFlight.yaml, <<: *rule-set}
-
-  # IMDB
-  IMDB: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/IMDB/IMDB.yaml, <<: *rule-set}
-
-  # McDonalds
-  Mcdonalds: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/McDonalds/McDonalds.yaml, <<: *rule-set}
-
-  # Tiktok
-  Tiktok: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Tiktok.yaml, <<: *rule-set}
-
-  # 網易雲音樂
-  NetEaseMusic: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/NetEaseMusic/NetEaseMusic.yaml, <<: *rule-set}
-
-  # Bilibili
-  Bilibili: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml, <<: *rule-set}
-  BilibiliNTL: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBiliIntl/BiliBiliIntl.yaml, <<: *rule-set}
-
-  #iQIYI
-  iQiYi: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/iQIYI/iQIYI.yaml, <<: *rule-set}
-  iQiYiIntl: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/iQIYIIntl/iQIYIIntl.yaml, <<: *rule-set}
-  
-  # China Media
-  ChinaMedia: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia.yaml, <<: *rule-set}
-  TencentVideo: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TencentVideo/TencentVideo.yaml, <<: *rule-set}
-  KugouKuwo: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/KugouKuwo/KugouKuwo.yaml, <<: *rule-set}
-  DouBan: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/DouBan/DouBan.yaml, <<: *rule-set}
-  KuaiShou: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/KuaiShou/KuaiShou.yaml, <<: *rule-set}
-  IPTV-other: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/IPTVOther/IPTVOther_Classical.yaml, <<: *rule-set}
-
-  # 大陸Apps
-  WanMeiShiJie: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WanMeiShiJie/WanMeiShiJie.yaml, <<: *rule-set}
-  Pinduoduo: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Pinduoduo/Pinduoduo.yaml, <<: *rule-set}
-  Sina: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Sina/Sina.yaml, <<: *rule-set}
-  Weibo: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Weibo/Weibo.yaml, <<: *rule-set}
-  JingDong: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/JingDong/JingDong.yaml, <<: *rule-set}
-  Alibaba: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Alibaba/Alibaba.yaml, <<: *rule-set}
-  MeiTuan: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/MeiTuan/MeiTuan.yaml, <<: *rule-set}
-  Douyin: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/DouYin/DouYin.yaml, <<: *rule-set}
-  Zhihu: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Zhihu/Zhihu.yaml, <<: *rule-set}
-  Baidu: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Baidu/Baidu.yaml, <<: *rule-set}
-
-  # 直連
-  Download: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.yaml, <<: *rule-set}
-  Lan: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml, <<: *rule-set}
-  Developer: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Developer/Developer.yaml, <<: *rule-set}
-  AliPay: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AliPay/AliPay.yaml ,<<: *rule-set}
-  WeChat: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml, <<: *rule-set}
-  GaoDe: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GaoDe/GaoDe.yaml, <<: *rule-set}
-  DiDi: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/DiDi/DiDi.yaml, <<: *rule-set}
-  XiaoHongShu: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/XiaoHongShu/XiaoHongShu.yaml, <<: *rule-set}
-  Rule: {url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/機場審計規則.yaml, <<: *rule-set}
-  # 廣告
-  Adrules: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml, <<: *rule-set}
-  Adrules-1: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml, <<: *rule-set}
-  ZhihuAds: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ZhihuAds/ZhihuAds.yaml, <<: *rule-set}
-  Hijacking: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml, <<: *rule-set}
-  Privacy: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml, <<: *rule-set}
-  AdGuardSDNSFilter: {url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AdGuardSDNSFilter/AdGuardSDNSFilter_Classical.yaml, <<: *rule-set}
-  HttpDNSblock: { url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS.yaml, <<: *rule-set}
+  PayPal:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PayPal/PayPal.yaml
+    interval: 3600
+  BankHK:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Bank(HK).yaml
+    interval: 3600
+  Lan:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml
+    interval: 3600
+  Direct:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml
+    interval: 3600
+  Unbreak:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/master/Clash/Ruleset/Unbreak.yaml
+    interval: 3600
+  AniGamer:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AniGamer.yaml
+    interval: 3600
+  Discord:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Discord.yaml
+    interval: 3600
+  Tiktok:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Tiktok.yaml
+    interval: 86400
+  AI:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AI.yaml
+    interval: 3600
+  Netflix:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml
+    interval: 3600
+  Disney:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Disney/Disney.yaml
+    interval: 3600
+  USA:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/USA.yaml
+    interval: 3600
+  Github:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Github.yaml
+    interval: 3600
+  KTR:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/KTR.yaml
+    interval: 3600
+  TW:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/TW.yaml
+    interval: 3600
+  Telegram:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml
+    interval: 3600
+  Apple:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml
+    interval: 3600
+  AppStore:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppStore/AppStore.yaml
+    interval: 3600
+  AppleMedia:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleMedia/AppleMedia.yaml
+    interval: 3600
+  SystemOTA:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SystemOTA/SystemOTA.yaml
+    interval: 3600
+  TestFlight:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TestFlight/TestFlight.yaml
+    interval: 3600
+  Adrules:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml
+    interval: 3600
+  Privacy:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml
+    interval: 3600
+  Hijacking:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml
+    interval: 3600
+rules:
+  - RULE-SET,Adrules,REJECT
+  - RULE-SET,Privacy,REJECT
+  - RULE-SET,Hijacking,REJECT
+  - RULE-SET,PayPal,🔒 Safe
+  - RULE-SET,BankHK,🔒 Safe
+  - RULE-SET,Lan,DIRECT
+  - RULE-SET,Direct,DIRECT
+  - RULE-SET,Unbreak,DIRECT
+  - DOMAIN-SUFFIX,trimage.rhaon.co.kr,🚀 Default
+  - DOMAIN-SUFFIX,x.ai,🚀 Default
+  - DOMAIN-KEYWORD,grok,🚀 Default
+  - RULE-SET,AniGamer,🚀 Default
+  - RULE-SET,Discord,🚀 Default
+  - RULE-SET,Tiktok,🚀 Default
+  - RULE-SET,AI,🧠 AI
+  - DOMAIN-KEYWORD,dcard,🫂 dcard
+  - RULE-SET,Netflix,🎥 Netflix
+  - RULE-SET,Disney,🎬 Disney+
+  - RULE-SET,USA,🇺🇸 USA
+  - RULE-SET,Github,🇯🇵 Japan
+  - RULE-SET,KTR,🇰🇷 Korea
+  - RULE-SET,TW,🇹🇼 Taiwan
+  - RULE-SET,Telegram,🇸🇬 Singapore
+  - RULE-SET,Apple,🍎 Apple服務
+  - RULE-SET,AppStore,🍎 Apple服務
+  - RULE-SET,AppleMedia,🍎 Apple服務
+  - RULE-SET,SystemOTA,🍎 Apple服務
+  - RULE-SET,TestFlight,🍎 Apple服務
+  - GEOIP,CN,🇨🇳 China
+  - MATCH,🚀 Default
+socks-port: 7891
+port: 7892
+redir-port: 0
+tproxy-port: 0
+find-process-mode: strict
+bind-address: "*"
+lan-allowed-ips:
+  - 0.0.0.0/0
+  - ::/0
+lan-disallowed-ips: []
+authentication: []
+skip-auth-prefixes:
+  - 127.0.0.1/32
+  - ::1/128
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*"
+    - +.lan
+    - +.local
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+  use-hosts: false
+  use-system-hosts: false
+  respect-rules: false
+  default-nameserver:
+    - tls://223.5.5.5
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  direct-nameserver: []
+  fallback: []
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+    domain:
+      - +.google.com
+      - +.facebook.com
+      - +.youtube.com
+geodata-mode: false

@@ -1,5 +1,5 @@
 payload:
-  - DOMAIN-SUFFIX,rhaon.co.kr
+  - DOMAIN-SUFFIX,*rhaon.co.kr
   - DOMAIN-SUFFIX,trimage.rhaon.co.kr
   - DOMAIN-SUFFIX,tr.hangame.com
   - DOMAIN-WILDCARD,*.onstove.*

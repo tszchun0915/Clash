@@ -95,18 +95,10 @@ payload:
   # === Claude (Anthropic) ===
   
   # Claude 主要服務
-  - DOMAIN,claude.ai
   - DOMAIN-SUFFIX,claude.ai
   - DOMAIN-SUFFIX,anthropic.com
   - DOMAIN-SUFFIX,anthropic.ai
-  
-  # Claude API 和服務
-  - DOMAIN,api.anthropic.com
-  - DOMAIN-SUFFIX,api.anthropic.com
-  - DOMAIN,console.anthropic.com
-  - DOMAIN-SUFFIX,console.anthropic.com
-  - DOMAIN,docs.anthropic.com
-  - DOMAIN-SUFFIX,docs.anthropic.com
+  - DOMAIN-SUFFIX,usefathom.com
   
   # === AI 圖片生成工具 ===
   

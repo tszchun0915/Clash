@@ -4,6 +4,7 @@ payload:
   - IP-CIDR,210.242.202.0/24,no-resolve
   - DOMAIN-SUFFIX,talesrunner.com.hk
   - DOMAIN-SUFFIX,funtown.com.hk
+  - DOMAIN-SUFFIX,runonline.hk
   # 港跑的藍熊 (好像需要與港跑同一個IP)
   - DOMAIN-SUFFIX,datarouter.ol.epicgames.com
   - DOMAIN-SUFFIX,modules-cdn.eac-prod.on.epicgames.com

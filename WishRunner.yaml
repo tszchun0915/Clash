@@ -1,5 +1,5 @@
 payload:
-  - PROCESS-PATH-WILDCATD,*\WishRunner\
+  - PROCESS-PATH-WILDCARD,*\WishRunner\
   - AND,((PROCESS-NAME,start_protected_game.exe),(PROCESS-NAME,EACefSubProcess.exe))
   - DOMAIN-SUFFIX,wish-runner.com
   - IP-CIDR,104.18.125.108/32,no-resolve

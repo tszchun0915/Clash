@@ -1,3 +1,4 @@
 payload:
+  - PROCESS-NAME,start_protected_game.exe
   - DOMAIN-SUFFIX,wish-runner.com
   - IP-CIDR,202.189.0.0/22,no-resolve

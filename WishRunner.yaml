@@ -1,9 +1,9 @@
 payload:
 # 遊戲
-  - DOMAIN-SUFFIX,wish-runner.com, 🇺🇸 USA
-  - DOMAIN-SUFFIX,wishrunner.com, 🇺🇸 USA
-  - IP-CIDR,202.189.10.0/24, 🇺🇸 USA, no-resolve
+  - DOMAIN-SUFFIX,wish-runner.com
+  - DOMAIN-SUFFIX,wishrunner.com
+  - IP-CIDR,202.189.10.0/24,no-resolve
 # 藍熊
-  - PROCESS-NAME,start_protected_game.exe, 🇺🇸 USA
-  - IP-CIDR,104.18.124.108/32, 🇺🇸 USA, no-resolve
-  - IP-CIDR,104.18.125.108/32, 🇺🇸 USA, no-resolve
+  - PROCESS-NAME,start_protected_game.exe
+  - IP-CIDR,104.18.124.108/32,no-resolve
+  - IP-CIDR,104.18.125.108/32,no-resolve

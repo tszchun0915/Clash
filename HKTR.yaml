@@ -5,3 +5,4 @@ payload:
   - DOMAIN-SUFFIX,runonline.hk
   - IP-CIDR,198.18.0.0/24,no-resolve
   - IP-CIDR,210.242.202.0/24,no-resolve
+  - PROCESS-NAME,xldr_TalesRunner_HK_loader_x64.exe

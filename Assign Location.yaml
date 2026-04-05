@@ -116,5 +116,6 @@ rules:
   - RULE-SET,Github,🇯🇵 Japan
   - RULE-SET,TW,🇹🇼 Taiwan
   - RULE-SET,Direct,DIRECT
+  - RULE-SET,CN,🇨🇳 China
   - GEOIP,CN,🇨🇳 China
   - MATCH,🚀 Default

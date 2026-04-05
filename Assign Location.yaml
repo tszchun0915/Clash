@@ -60,60 +60,49 @@ proxy-groups:
   - {name: 🫂 dcard, <<: *select-app}
   - {name: ⏳ Tiktok, <<: *select-app}
   - {name: 🖥️ bilibili, <<: *select-app}
-  - {name: China (VPN), <<: *url-test-country, url: "http://www.apple.com/library/test/success.html", filter: '(?=.*((?i)Aliyun|CN|China))^((?!(香港|台湾|新加坡|狮城|南朝鲜|SG|KR|HK|TW|台灣|韓國|獅城)).)*$'}
-  - {name: HongKong (VPN), <<: *url-test-country, url: "http://www.apple.com/library/test/success.html", filter: '(?=.*((?i)🇭🇰|香|港|香港|香江|深港|沪港|京港|香島|灣仔|港仔|九龍|銅鑼灣|旺角|HK|Hong|HongKong|🏡|Home|Peter|🏠))^((?!(台灣|日本|新加坡|美國|韓國|獅城|南朝鮮|US|SG|JP|KR|TW|台灣|美國|韓國|獅城)).)*$'}
-  - {name: Taiwan (VPN), <<: *url-test-country, url: "http://www.apple.com/library/test/success.html", filter: '(?=.*((?i)🇹🇼|台|台灣|台北|新北|桃園|台中|台南|高雄|基隆|新竹|嘉義|苗栗|彰化|南投|雲林|屏東|台東|花蓮|宜蘭|澎湖|金門|連江|TW|Taiwan|Tai wan))^((?!(港|日|韓|新|美)).)*$'}
-  - {name: USA (VPN), <<: *url-test-country, url: "http://www.apple.com/library/test/success.html", filter: '(?=.*((?i)🇺🇸|美|美國|紐約|滬美|美利堅合衆國|波特蘭|達拉斯|俄勒岡|鳳凰城|費利蒙|硅谷|拉斯維加斯|洛杉磯|聖何塞|聖克拉拉|西雅圖|芝加哥|華盛頓|內華達|蒙大納|懷俄明州|菲尼克斯|阿爾伯克基|丹佛|United States|States|American|America|america))^((?!(香港|台灣|新加坡|獅城|南朝鮮|SG|KR|HK|TW|台灣|韓國|獅城)).)*$'}
-  - {name: Korea (VPN), <<: *url-test-country, url: "http://www.apple.com/library/test/success.html", filter: '(?=.*((?i)🇰🇷|韓|韓國|南韓|南朝鮮|高麗|大韓民國|首爾|世宗|濟州市|水原|釜山|大邱|仁川|光州|大田|蔚山|KR|Korea|Korean|South Korea|韓|KOR|春川))^((?!(香港|台灣|新加坡|美國|獅城|南朝|US|UK|SG|HK|TW|台灣|美國|獅城|UKRAINE)).)*$'}
-  - {name: Japan (VPN), <<: *url-test-country, url: "https://github.com", filter: '(?=.*((?i)🇯🇵|日本|川日|東京|大阪|泉日|埼玉|滬日|深日|JP|Japan|名古屋|福岡|仙台|京都|Japan|京日|蘇日|上日|廣日|Tokyo|tokyo))^((?!(香港|台灣|新加坡|美國|韓國|獅城|南朝鮮|US|SG|KR|HK|TW|台灣|美國|韓國|獅城)).)*$'}
-  - {name: Singapore (VPN), <<: *url-test-country, url: "http://www.apple.com/library/test/success.html", filter: '(?=.*((?i)🇸🇬|新|獅|獅|坡|新加坡|星|星加坡|星洲|獅城|SG|Singapore|Sing|sing|滬新|京新|深新|杭新|廣新))^((?!(香港|台灣|日本|美國|韓國|南朝鮮|US|JP|KR|HK|TW|台灣|美國|韓國)).)*$'}
-  - {name: Thailand (VPN), <<: *url-test-country, url: "http://www.gstatic.com/generate_204", filter: "泰國|🇹🇭|Thai|Thailand"}
-  - {name: Turkey (VPN), <<: *url-test-country, url: "http://www.gstatic.com/generate_204", filter: "土耳其|Turkey|🇹🇷"}
+  - {name: China (VPN), <<: *url-test-country, url: http://tr.8yx.com, filter: '(?=.*((?i)Aliyun|CN|China))^((?!(香港|台湾|新加坡|狮城|南朝鲜|SG|KR|HK|TW|台灣|韓國|獅城)).)*$'}
+  - {name: HongKong (VPN), <<: *url-test-country, url: http://funtown.com.hk, filter: '(?=.*((?i)🇭🇰|香|港|香港|香江|深港|沪港|京港|香島|灣仔|港仔|九龍|銅鑼灣|旺角|HK|Hong|HongKong|🏡|Home|Peter|🏠))^((?!(台灣|日本|新加坡|美國|韓國|獅城|南朝鮮|US|SG|JP|KR|TW|台灣|美國|韓國|獅城)).)*$'}
+  - {name: Taiwan (VPN), <<: *url-test-country, url: http://funtown.com.hk, filter: '(?=.*((?i)🇹🇼|台|台灣|台北|新北|桃園|台中|台南|高雄|基隆|新竹|嘉義|苗栗|彰化|南投|雲林|屏東|台東|花蓮|宜蘭|澎湖|金門|連江|TW|Taiwan|Tai wan))^((?!(港|日|韓|新|美)).)*$'}
+  - {name: USA (VPN), <<: *url-test-country, url: http://talesrunner.us, filter: '(?=.*((?i)🇺🇸|美|美國|紐約|滬美|美利堅合衆國|波特蘭|達拉斯|俄勒岡|鳳凰城|費利蒙|硅谷|拉斯維加斯|洛杉磯|聖何塞|聖克拉拉|西雅圖|芝加哥|華盛頓|內華達|蒙大納|懷俄明州|菲尼克斯|阿爾伯克基|丹佛|United States|States|American|America|america))^((?!(香港|台灣|新加坡|獅城|南朝鮮|SG|KR|HK|TW|台灣|韓國|獅城)).)*$'}
+  - {name: Korea (VPN), <<: *url-test-country, url: http://tr.rhaon.co.kr, filter: '(?=.*((?i)🇰🇷|韓|韓國|南韓|南朝鮮|高麗|大韓民國|首爾|世宗|濟州市|水原|釜山|大邱|仁川|光州|大田|蔚山|KR|Korea|Korean|South Korea|韓|KOR|春川))^((?!(香港|台灣|新加坡|美國|獅城|南朝|US|UK|SG|HK|TW|台灣|美國|獅城|UKRAINE)).)*$'}
+  - {name: Japan (VPN), <<: *url-test-country, url: http://github.com, filter: '(?=.*((?i)🇯🇵|日本|川日|東京|大阪|泉日|埼玉|滬日|深日|JP|Japan|名古屋|福岡|仙台|京都|Japan|京日|蘇日|上日|廣日|Tokyo|tokyo))^((?!(香港|台灣|新加坡|美國|韓國|獅城|南朝鮮|US|SG|KR|HK|TW|台灣|美國|韓國|獅城)).)*$'}
+  - {name: Singapore (VPN), <<: *url-test-country, url: http://sgx.com, filter: '(?=.*((?i)🇸🇬|新|獅|獅|坡|新加坡|星|星加坡|星洲|獅城|SG|Singapore|Sing|sing|滬新|京新|深新|杭新|廣新))^((?!(香港|台灣|日本|美國|韓國|南朝鮮|US|JP|KR|HK|TW|台灣|美國|韓國)).)*$'}
+  - {name: Thailand (VPN), <<: *url-test-country, url: http://talesrunner.thehof.gg, filter: "泰國|🇹🇭|Thai|Thailand"}
+  - {name: Turkey (VPN), <<: *url-test-country, url: http://tcmb.gov.tr, filter: "土耳其|Turkey|🇹🇷"}
 
 # ==================== sub-rules Groups ====================
 rule-providers:
-  PayPal: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PayPal/PayPal.yaml"}
-  BankHK: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Bank(HK).yaml"}
-  Lan: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml"}
-  Direct: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml"}
-  Unbreak: {<<: *rule-provider, url: "https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/master/Clash/Ruleset/Unbreak.yaml"}
-  AniGamer: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AniGamer.yaml"}
-  Discord: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Discord.yaml"}
-  Tiktok: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Tiktok.yaml"}
-  AI: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AI.yaml"}
-  USA: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/USA.yaml"}
-  Github: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Github.yaml"}
-  KTR: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/KTR.yaml"}
-  TW: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/TW.yaml"}
-  Telegram: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml"}
-  BiliBili: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml"}
   Adrules: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml"}
   Privacy: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml"}
   Hijacking: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml"}
-
+  BankHK: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Bank(HK).yaml"}
+  BiliBili: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml"}
+  AI: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AI.yaml"}
+  AniGamer: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AniGamer.yaml"}
+  Telegram: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml"}
+  Tiktok: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Tiktok.yaml"}
+  USA: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/USA.yaml"}
+  KTR: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/KTR.yaml"}
+  Github: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Github.yaml"}
+  TW: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/TW.yaml"}
+  Direct: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml"}
+ 
 # ==================== Rules ====================
 rules:
   - RULE-SET,Adrules,REJECT
   - RULE-SET,Privacy,REJECT
   - RULE-SET,Hijacking,REJECT
-  - RULE-SET,PayPal,🔒 Safe
   - RULE-SET,BankHK,🔒 Safe
-  - RULE-SET,Lan,DIRECT
-  - RULE-SET,Direct,DIRECT
-  - RULE-SET,Unbreak,DIRECT
-  - DOMAIN-SUFFIX,trimage.rhaon.co.kr,🚀 Default
-  - DOMAIN-SUFFIX,x.ai,🚀 Default
-  - DOMAIN-KEYWORD,grok,🚀 Default
-  - RULE-SET,AniGamer,📺 AniGamer
-  - RULE-SET,Discord,🚀 Default
-  - RULE-SET,Tiktok,⏳ Tiktok
-  - RULE-SET,AI,🧠 AI
   - DOMAIN-KEYWORD,dcard,🫂 dcard
-  - RULE-SET,USA,🇺🇸 USA
-  - RULE-SET,Github,🇯🇵 Japan
-  - RULE-SET,KTR,🇰🇷 Korea
-  - RULE-SET,TW,🇹🇼 Taiwan
-  - RULE-SET,Telegram,🫂 Telegram
   - RULE-SET,BiliBili,🖥️ bilibili
+  - RULE-SET,AI,🧠 AI
+  - RULE-SET,AniGamer,📺 AniGamer
+  - RULE-SET,Telegram,🫂 Telegram
+  - RULE-SET,Tiktok,⏳ Tiktok
+  - RULE-SET,USA,🇺🇸 USA
+  - RULE-SET,KTR,🇰🇷 Korea
+  - RULE-SET,Github,🇯🇵 Japan
+  - RULE-SET,TW,🇹🇼 Taiwan
+  - RULE-SET,Direct,DIRECT
   - GEOIP,CN,🇨🇳 China
   - MATCH,🚀 Default

@@ -16,7 +16,7 @@ unified-delay: true
 global-ua: clash.party
 profile: {store-selected: true, store-fake-ip: true}
 find-process-mode: strict
-tun: {enable: true, stack: system, auto-route: true, auto-detect-interface: true, dns-hijack: ["any:53"], device: Mihomo, mtu: 1500}
+tun: {enable: true, stack: system, auto-route: true, auto-detect-interface: true, dns-hijack: ["any:53"], device: Mihomo, mtu: 1500, strict-route: true, exclude-interface: ["vEthernet (Default Switch)", "Hyper-V Virtual Ethernet Adapter", "Mihomo Meta Tunnel"], route-exclude-address: ["192.168.0.0/16", "172.16.0.0/12", "10.0.0.0/8"]}
 sniffer: {enable: true, force-dns-mapping: true, parse-pure-ip: true, sniff: {HTTP: {ports: [80, 443]}, TLS: {ports: [443]}, QUIC: {ports: [443]}}, skip-domain: ["+.push.apple.com"]}
 
 dns:

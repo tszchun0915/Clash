@@ -87,6 +87,7 @@ rule-providers:
   AniGamer: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AniGamer.yaml"}
   Telegram: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml"}
   Tiktok: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Tiktok.yaml"}
+  HK: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/HK.yaml"}
   USA: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/USA.yaml"}
   KTR: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/KTR.yaml"}
   Github: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Github.yaml"}
@@ -97,7 +98,6 @@ rule-providers:
 # ==================== Rules ====================
 rules:
   - RULE-SET,HKTR,👟 HKTR
-  - RULE-SET,WishTR,🇨🇳 China
   - RULE-SET,Adrules,REJECT
   - RULE-SET,Privacy,REJECT
   - RULE-SET,Hijacking,REJECT
@@ -111,6 +111,7 @@ rules:
   - RULE-SET,AniGamer,📺 AniGamer
   - RULE-SET,Telegram,🫂 Telegram
   - RULE-SET,Tiktok,⏳ Tiktok
+  - RULE-SET,HK,🇭🇰 HongKong
   - RULE-SET,USA,🇺🇸 USA
   - RULE-SET,KTR,🇰🇷 Korea
   - RULE-SET,Github,🇯🇵 Japan

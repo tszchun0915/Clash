@@ -54,6 +54,7 @@ proxy-groups:
   - {name: 🇸🇬 Singapore, type: select, proxies: [DIRECT,Singapore (VPN)]}
   - {name: 🇹🇭 Thailand, type: select, proxies: [DIRECT,Thailand (VPN)]}
   - {name: 🇹🇷 Turkey, type: select, proxies: [DIRECT,Turkey (VPN)]}
+  - {name: 👟 HKTR, <<: *select-app}
   - {name: 🧠 AI, <<: *select-app}
   - {name: 📺 AniGamer, <<: *select-app}
   - {name: 🫂 Telegram, <<: *select-app}
@@ -72,11 +73,16 @@ proxy-groups:
 
 # ==================== sub-rules Groups ====================
 rule-providers:
+  HKTR: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/HKTR.yaml"}
+  WishTR: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/WishRunner.yaml"}
   Adrules: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml"}
   Privacy: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml"}
   Hijacking: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml"}
   BankHK: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Bank(HK).yaml"}
-  BiliBili: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml"}
+  Apple: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AppleService.yaml"}
+  Netflix: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml"}
+  Disney: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Disney/Disney.yaml"}
+  BiliBili: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/bilibili.yaml"}
   AI: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AI.yaml"}
   AniGamer: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/AniGamer.yaml"}
   Telegram: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml"}
@@ -85,13 +91,19 @@ rule-providers:
   KTR: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/KTR.yaml"}
   Github: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Github.yaml"}
   TW: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/TW.yaml"}
-  Direct: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml"}
- 
+  Direct: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/Direct.yaml"}
+  CN: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/CN.yaml"}
+
 # ==================== Rules ====================
 rules:
+  - RULE-SET,HKTR,👟 HKTR
+  - RULE-SET,WishTR,🇨🇳 China
   - RULE-SET,Adrules,REJECT
   - RULE-SET,Privacy,REJECT
   - RULE-SET,Hijacking,REJECT
+  - RULE-SET,Apple,🚀 Default
+  - RULE-SET,Netflix,🚀 Default
+  - RULE-SET,Disney,🚀 Default
   - RULE-SET,BankHK,🔒 Safe
   - DOMAIN-KEYWORD,dcard,🫂 dcard
   - RULE-SET,BiliBili,🖥️ bilibili

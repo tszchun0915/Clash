@@ -74,7 +74,6 @@ proxy-groups:
 # ==================== sub-rules Groups ====================
 rule-providers:
   HKTR: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/HKTR.yaml"}
-  WishTR: {<<: *rule-provider, url: "https://raw.githubusercontent.com/tszchun0915/Clash/refs/heads/main/WishRunner.yaml"}
   Adrules: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml"}
   Privacy: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml"}
   Hijacking: {<<: *rule-provider, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml"}

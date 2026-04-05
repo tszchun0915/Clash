@@ -1,3 +1,8 @@
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+ipv6: false
 # ==================== [Merge Keys] & [General] & [DNS Configuration (Balanced & Secure)] & [GEO & Providers] ====================
 Default: &Default {type: select, proxies: [DIRECT, "🇨🇳 China", "🇭🇰 HongKong", "🇹🇼 Taiwan", "🇺🇸 USA", "🇰🇷 Korea", "🇯🇵 Japan", "🇸🇬 Singapore", "🇹🇭 Thailand", "🇹🇷 Turkey"]}
 select-app: &select-app {type: select, proxies: [🚀 Default, DIRECT, "🇨🇳 China", "🇭🇰 HongKong", "🇹🇼 Taiwan", "🇺🇸 USA", "🇰🇷 Korea", "🇯🇵 Japan", "🇸🇬 Singapore", "🇹🇭 Thailand", "🇹🇷 Turkey"]}
@@ -5,11 +10,6 @@ url-test-country: &url-test-country {type: url-test, include-all: true, interval
 rule-provider: &rule-provider {type: http, behavior: classical, interval: 3600}
 airport: &airport {type: http, interval: 21600, health-check: {enable: true, interval: 300, timeout: 500, url: 'http://captive.apple.com/generate_204', expected-status: 204, lazy: true, proxy: DIRECT}}
 
-mixed-port: 7890
-allow-lan: true
-mode: rule
-log-level: info
-ipv6: false
 udp: true
 tcp-concurrent: true
 unified-delay: true

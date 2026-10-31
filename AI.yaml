@@ -153,7 +153,6 @@ payload:
   # 可選補充資源
   - DOMAIN-SUFFIX,cdn.openai.com
   - DOMAIN-SUFFIX,static.cloudflareinsights.com
-  - DOMAIN-SUFFIX,ip-api.com
   - DOMAIN-KEYWORD,openai
   - DOMAIN-KEYWORD,anthropic
   - DOMAIN-KEYWORD,chatgpt
@@ -201,6 +200,3 @@ payload:
   - IP-CIDR,157.240.1.0/24,no-resolve
   - IP-CIDR,17.57.144.0/22,no-resolve
 　- IP-CIDR,17.248.128.0/18,no-resolve
-  - IP-CIDR,172.253.0.0/16,no-resolve
-  - IP-CIDR,162.159.0.0/16,no-resolve
-  - IP-CIDR,74.125.0.0/16,no-resolve

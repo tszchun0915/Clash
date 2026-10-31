@@ -423,3 +423,11 @@ payload:
   - DOMAIN-SUFFIX,zenlesszonezero.com
   - DOMAIN-SUFFIX,gamecenter.qq.com
   - DOMAIN-SUFFIX,game.weixin.qq.com
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 新增：uhdnow
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  - DOMAIN,www.uhdnow.com,DIRECT
+  - DOMAIN,smart.uhdnow.com,DIRECT
+  - DOMAIN,speed.uhdnow.com,DIRECT
+  - DOMAIN-SUFFIX,uhdnow.online,DIRECT

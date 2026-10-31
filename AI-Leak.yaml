@@ -68,3 +68,6 @@ payload:
   - DOMAIN-KEYWORD,whatismyip
   - DOMAIN-KEYWORD,myip
   - DOMAIN-KEYWORD,cloudflare
+  - IP-CIDR,172.253.0.0/16,no-resolve
+  - IP-CIDR,162.159.0.0/16,no-resolve
+  - IP-CIDR,74.125.0.0/16,no-resolve

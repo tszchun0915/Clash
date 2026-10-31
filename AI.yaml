@@ -31,7 +31,7 @@ payload:
   - DOMAIN-SUFFIX,anthropic.ai
   - DOMAIN-SUFFIX,usefathom.com
 
-  # Gemini / NotebookLM
+  # Gemini / NotebookLM / AI Studio
   - DOMAIN-SUFFIX,gemini.google.com
   - DOMAIN-SUFFIX,bard.google.com
   - DOMAIN-SUFFIX,ai.google.dev
@@ -58,6 +58,15 @@ payload:
   - DOMAIN-SUFFIX,notebooklm.googleusercontent.com
   - DOMAIN,notebooklm-api.googleapis.com
   - DOMAIN,notebooklm.googleapis.com
+
+  # Microsoft Copilot
+  - DOMAIN-SUFFIX,copilot.microsoft.com
+  - DOMAIN-SUFFIX,copilot.cloud.microsoft
+  - DOMAIN-SUFFIX,copilot.bing.com
+  - DOMAIN-SUFFIX,sydney.bing.com
+  - DOMAIN-SUFFIX,edgeservices.bing.com
+  - DOMAIN-KEYWORD,copilot
+  - DOMAIN-KEYWORD,sydney
 
   # Meta AI
   - DOMAIN,ai.meta.com
@@ -141,12 +150,14 @@ payload:
   - DOMAIN,smoot.apple.com
   - DOMAIN,siri-suggestions.apple.com
 
-  # 關鍵字
-  - DOMAIN-KEYWORD,chatgpt
+  # 可選補充資源
+  - DOMAIN-SUFFIX,cdn.openai.com
+  - DOMAIN-SUFFIX,static.cloudflareinsights.com
   - DOMAIN-KEYWORD,openai
-  - DOMAIN-KEYWORD,gemini
-  - DOMAIN-KEYWORD,claude
   - DOMAIN-KEYWORD,anthropic
+  - DOMAIN-KEYWORD,chatgpt
+  - DOMAIN-KEYWORD,claude
+  - DOMAIN-KEYWORD,gemini
   - DOMAIN-KEYWORD,midjourney
   - DOMAIN-KEYWORD,stability
   - DOMAIN-KEYWORD,runway

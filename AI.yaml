@@ -162,6 +162,20 @@ payload:
   - DOMAIN-KEYWORD,stability
   - DOMAIN-KEYWORD,runway
   - DOMAIN-KEYWORD,notebooklm
+  
+　# Claude 相關
+　- DOMAIN-SUFFIX,claude.com
+　- DOMAIN-SUFFIX,platform.claude.com
+　- DOMAIN-SUFFIX,downloads.claude.ai
+
+　# OpenAI 登入相關
+　- DOMAIN-SUFFIX,auth.openai.com
+　- DOMAIN-SUFFIX,auth0.openai.com
+　- DOMAIN,challenges.cloudflare.com
+　
+ # 其他常見
+　- DOMAIN-SUFFIX,statsig.com
+　- DOMAIN-SUFFIX,statsigapi.net
 
   # IP 範圍
   - IP-CIDR,24.199.123.28/32,no-resolve
@@ -185,4 +199,4 @@ payload:
   - IP-CIDR,31.13.24.0/24,no-resolve
   - IP-CIDR,157.240.1.0/24,no-resolve
   - IP-CIDR,17.57.144.0/22,no-resolve
-  - IP-CIDR,17.248.128.0/18,no-resolve
+　- IP-CIDR,17.248.128.0/18,no-resolve

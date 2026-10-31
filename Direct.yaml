@@ -427,7 +427,7 @@ payload:
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 新增：uhdnow
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  - DOMAIN,www.uhdnow.com,DIRECT
-  - DOMAIN,smart.uhdnow.com,DIRECT
-  - DOMAIN,speed.uhdnow.com,DIRECT
-  - DOMAIN-SUFFIX,uhdnow.online,DIRECT
+  - DOMAIN,www.uhdnow.com
+  - DOMAIN,smart.uhdnow.com
+  - DOMAIN,speed.uhdnow.com
+  - DOMAIN-SUFFIX,uhdnow.online

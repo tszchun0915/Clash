@@ -57,3 +57,7 @@ payload:
   - DOMAIN-SUFFIX,8.8.8.8:8920
   - DOMAIN-SUFFIX,127.0.0.1:8096
   - DOMAIN-SUFFIX,pemby.ednovas.org:8096
+  - DOMAIN,v1.uhdnow.com
+  - DOMAIN,v1.uhdgo.com
+  - DOMAIN,v1-vod1.uhdnow.com
+  - DOMAIN,v1-vod2.uhdnow.com
